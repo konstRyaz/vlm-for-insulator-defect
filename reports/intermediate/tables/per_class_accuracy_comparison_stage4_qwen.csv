@@ -1,0 +1,4 @@
+gt_coarse_class,n,tight_correct,tight_acc,context_correct,context_acc,delta_context_minus_tight
+defect_broken,6,2,0.3333333333333333,2,0.3333333333333333,0.0
+defect_flashover,20,11,0.55,10,0.5,-0.050000000000000044
+insulator_ok,32,8,0.25,11,0.34375,0.09375

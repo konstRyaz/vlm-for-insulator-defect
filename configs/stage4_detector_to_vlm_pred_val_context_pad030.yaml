@@ -1,0 +1,42 @@
+version: 1
+name: stage4_detector_to_vlm_pred_val_context_pad030_maxpix401k
+
+stage4:
+  run_name: stage4_detector_to_vlm_pred_val_context_pad030_maxpix401k
+  split: val
+  output_root: outputs/stage4
+
+detector:
+  experiment: detector_baseline
+  input_dir: data/processed/val/images
+  config_path: src/configs/infer.yaml
+  weights_path: outputs/train/detector_baseline/best.pth
+  conf_threshold: 0.05
+  iou_threshold: 0.5
+  max_detections_per_image: 100
+  vis_samples: 8
+  device: auto
+
+crop_export:
+  coco_json: data/processed/val/annotations.json
+  images_dir: data/processed/val/images
+  include_categories: null
+  padding_ratio: 0.30
+  manifest_name: pred_manifest.jsonl
+  summary_name: pred_manifest_summary.json
+  limit: null
+
+vlm:
+  backend_mode: qwen_hf
+  model_id: Qwen/Qwen2.5-VL-3B-Instruct
+  prompt_version: qwen_vlm_labels_v1_prompt_v7f_flashover_unclear_to_unknown_nocroppath
+  stage3_runner_config: configs/pipeline/stage3_vlm_gt_baseline.yaml
+  run_id: stage4_pred_vlm
+  qwen_hf:
+    max_pixels: 401408
+
+analysis:
+  ground_truth_jsonl: outputs/stage3_regrouped_v2/val/vlm_labels_v1_val_v2.annotated.jsonl
+  ceiling_run_dir: outputs/stage3_vlm_baseline_runs/stage3_qwen_val_v2_clean_final
+  match_iou_threshold: 0.5
+  good_crop_iou_threshold: 0.7

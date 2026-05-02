@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vlm-insulator-defects"
+version = "0.1.0"
+description = "Исследовательский конвейер для обнаружения и классификации дефектов изоляторов ЛЭП"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "torch",
+  "torchvision",
+  "hydra-core",
+  "omegaconf",
+  "pycocotools",
+  "numpy",
+  "pillow",
+  "tqdm",
+  "matplotlib",
+  "PyYAML",
+  "wandb",
+  "transformers>=4.49.0",
+  "accelerate>=0.33.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]

@@ -1,0 +1,20 @@
+{
+  "baseline_name": "qwen_stage4_context_pad030",
+  "candidate_name": "dinov2_qwen_secondbest_cv035",
+  "total": 58,
+  "baseline_correct": 23,
+  "candidate_correct": 34,
+  "delta_correct": 11,
+  "baseline_rate": 0.39655172413793105,
+  "candidate_rate": 0.5862068965517241,
+  "delta_rate": 0.1896551724137931,
+  "helped": 21,
+  "hurt": 10,
+  "both_correct": 13,
+  "both_wrong": 14,
+  "changed_total": 31,
+  "sign_test_two_sided_p": 0.07075554598122835,
+  "delta_rate_mean": 0.1895,
+  "delta_rate_ci95_low": 0.0,
+  "delta_rate_ci95_high": 0.3793103448275862
+}

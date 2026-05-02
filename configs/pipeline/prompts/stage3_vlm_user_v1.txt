@@ -1,0 +1,14 @@
+Analyze the provided insulator crop image and return one JSON object.
+
+Metadata for traceability:
+- record_id: {{record_id}}
+- split: {{split}}
+- source: {{source}}
+- bbox_xywh: {{bbox_xywh}}
+- crop_path: {{crop_path}}
+
+Return JSON only.
+Required keys:
+["coarse_class", "visual_evidence_tags", "visibility", "short_canonical_description_en", "report_snippet_en"]
+Optional key:
+["annotator_notes"]

@@ -1,0 +1,28 @@
+defaults:
+  - writer: disabled
+  - _self_
+
+seed: 42
+device: auto
+
+run_name: detector_baseline
+
+num_classes: 2
+image_size: 512
+resize: true
+resize_mode: pad
+score_threshold: 0.3
+pretrained: false
+
+checkpoint_path: outputs/train/detector_baseline/best.pth
+input_dir: data/processed/val/images
+output_dir: outputs/infer/detector_baseline
+vis_samples: 8
+
+class_names:
+  "1": defect
+
+hydra:
+  run:
+    dir: ${output_dir}
+  output_subdir: .hydra

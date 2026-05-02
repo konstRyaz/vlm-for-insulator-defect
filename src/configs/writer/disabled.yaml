@@ -1,0 +1,5 @@
+_target_: src.logger.Writer
+project_name: insulator-defect-mre
+entity: null
+mode: disabled
+run_name: null

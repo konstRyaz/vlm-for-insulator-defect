@@ -1,0 +1,4 @@
+candidate,baseline_correct,candidate_correct,delta_correct,helped,hurt,unchanged_correct,unchanged_wrong,sign_test_p
+hard_dinov2,23,28,5,14,9,14,21,0.4048728942871094
+qwen_veto_cv035,23,27,4,11,7,16,24,0.480682373046875
+champ_secondbest_cv035,23,34,11,21,10,13,14,0.07075554598122835

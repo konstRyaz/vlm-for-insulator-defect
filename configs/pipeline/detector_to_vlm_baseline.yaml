@@ -1,0 +1,60 @@
+version: 1
+name: detector_to_vlm_baseline_v1
+
+detector:
+  baseline_id: detector_baseline_v1
+  checkpoint_path: outputs/train/detector_baseline/best.pth
+  eval_threshold: 0.05
+  pipeline_threshold_default: 0.5
+  pipeline_threshold_alt: 0.3
+
+classes:
+  defect_classes:
+    - defect_flashover
+    - defect_broken
+  ok_class: insulator_ok
+  unknown_class: unknown
+
+routing:
+  send_to_vlm_categories:
+    - defect_flashover
+    - defect_broken
+  send_unknown_to_vlm: false
+  unknown_decision: review
+  suppress_unknown_by_default: true
+  send_insulator_ok_to_vlm: false
+  emit_no_defect_signal_if_no_defect_regions: true
+  no_defect_signal_class: insulator_ok
+
+selection:
+  max_regions_per_image: 5
+  sort_by_score: desc
+  class_priority:
+    - defect_flashover
+    - defect_broken
+    - insulator_ok
+    - unknown
+
+crops:
+  crop_padding_ratio: 0.15
+  clip_to_image_bounds: true
+
+handoff:
+  source_default: pred
+  routing_decision_values:
+    - send_to_vlm
+    - review
+    - suppress
+    - no_defect_signal
+  required_fields:
+    - image_id
+    - image_path
+    - source
+    - bbox_xywh
+    - score
+    - category_id
+    - category_name
+    - crop_path
+    - needs_review
+    - routing_decision
+

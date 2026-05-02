@@ -1,0 +1,33 @@
+# Локальное окружение
+.venv/
+venv/
+.env
+.env.*
+
+# Данные и результаты запусков
+data/*
+!data/README.md
+outputs/*
+!outputs/README.md
+
+# Кэш Python и Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Отчёты покрытия и временные файлы
+htmlcov/
+.coverage
+coverage.xml
+*.log
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Локальные заметки
+notes/*.local.md

@@ -1,0 +1,9 @@
+gt_coarse_class,pred_vlm_coarse_class,tight_count,context_count,delta_context_minus_tight
+insulator_ok,defect_flashover,15,12,-3
+insulator_ok,defect_broken,7,5,-2
+defect_flashover,defect_broken,4,3,-1
+defect_flashover,insulator_ok,3,7,4
+defect_broken,defect_flashover,3,4,1
+defect_flashover,unknown,2,0,-2
+insulator_ok,unknown,1,3,2
+defect_broken,unknown,1,0,-1

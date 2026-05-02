@@ -1,0 +1,29 @@
+Analyze the provided insulator crop image and return one JSON object.
+
+Apply the system policy strictly.
+
+Before producing the final JSON, internally decide visibility in this order:
+1) Is the visible evidence itself readable enough to trust?
+   - if no -> visibility="ambiguous"
+2) If yes, is a substantial part of the insulator missing from view or occluded
+   so that context is materially reduced?
+   - if yes -> visibility="partial"
+   - if no -> visibility="clear"
+
+Important:
+- Ambiguous means the shown evidence is visually unreliable, not merely inconclusive.
+- Weak defect evidence alone is not a visibility reason.
+- Minor truncation or mild low contrast does not override clear if the visible evidence remains readable.
+
+Metadata for traceability:
+- record_id: {{record_id}}
+- split: {{split}}
+- source: {{source}}
+- bbox_xywh: {{bbox_xywh}}
+- crop_path: {{crop_path}}
+
+Return JSON only.
+Required keys:
+["coarse_class", "visual_evidence_tags", "visibility", "short_canonical_description_en", "report_snippet_en"]
+Optional key:
+["annotator_notes"]

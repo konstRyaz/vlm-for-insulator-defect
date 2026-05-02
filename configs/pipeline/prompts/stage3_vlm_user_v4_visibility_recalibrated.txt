@@ -1,0 +1,21 @@
+Analyze the provided insulator crop image and return one JSON object.
+
+Apply the system policy strictly:
+- calibrate visibility carefully (avoid overusing partial),
+- use ambiguous when image quality limits interpretability,
+- predict defect classes only with direct visual evidence,
+- otherwise choose a conservative class,
+- choose compact non-contradictory tags aligned with class and visibility.
+
+Metadata for traceability:
+- record_id: {{record_id}}
+- split: {{split}}
+- source: {{source}}
+- bbox_xywh: {{bbox_xywh}}
+- crop_path: {{crop_path}}
+
+Return JSON only.
+Required keys:
+["coarse_class", "visual_evidence_tags", "visibility", "short_canonical_description_en", "report_snippet_en"]
+Optional key:
+["annotator_notes"]

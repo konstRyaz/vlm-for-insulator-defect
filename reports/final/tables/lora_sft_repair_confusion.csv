@@ -1,0 +1,4 @@
+gt_class,pred_insulator_ok,pred_defect_flashover,pred_defect_broken,pred_unknown
+insulator_ok,29,1,2,0
+defect_flashover,16,1,3,0
+defect_broken,6,0,0,0

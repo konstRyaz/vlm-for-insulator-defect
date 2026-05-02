@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/vlm_labels_v1.schema.json",
+  "title": "VLM Labels v1 Record",
+  "description": "Structured bbox/crop-level annotation record for Stage 3 VLM baseline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "image_id",
+    "box_id",
+    "source",
+    "split",
+    "bbox_xywh",
+    "coarse_class",
+    "visual_evidence_tags",
+    "visibility",
+    "needs_review",
+    "short_canonical_description",
+    "report_snippet"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "image_id": {
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "box_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "gt",
+        "pred"
+      ]
+    },
+    "split": {
+      "type": "string",
+      "enum": [
+        "train",
+        "val",
+        "test",
+        "unspecified"
+      ]
+    },
+    "bbox_xywh": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "coarse_class": {
+      "type": "string",
+      "enum": [
+        "insulator_ok",
+        "defect_flashover",
+        "defect_broken",
+        "unknown",
+        "other"
+      ]
+    },
+    "visual_evidence_tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "clear",
+        "partial",
+        "ambiguous"
+      ]
+    },
+    "needs_review": {
+      "type": "boolean"
+    },
+    "short_canonical_description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "short_canonical_description_ru": {
+      "type": "string"
+    },
+    "short_canonical_description_en": {
+      "type": "string"
+    },
+    "report_snippet": {
+      "type": "string",
+      "minLength": 1
+    },
+    "report_snippet_ru": {
+      "type": "string"
+    },
+    "report_snippet_en": {
+      "type": "string"
+    },
+    "crop_path": {
+      "type": "string"
+    },
+    "image_path": {
+      "type": "string"
+    },
+    "score": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "category_name": {
+      "type": "string"
+    },
+    "annotator_notes": {
+      "type": "string"
+    },
+    "label_version": {
+      "type": "string"
+    }
+  }
+}

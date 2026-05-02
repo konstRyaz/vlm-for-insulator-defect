@@ -1,0 +1,13 @@
+torch
+torchvision
+hydra-core
+omegaconf
+pycocotools
+numpy
+pillow
+tqdm
+matplotlib
+PyYAML
+wandb
+transformers>=4.49.0
+accelerate>=0.33.0

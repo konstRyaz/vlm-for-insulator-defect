@@ -1,0 +1,19 @@
+﻿component,metric,value,notes
+stage2_detector,mAP_50_95,0.5664,Faster R-CNN detector_baseline_v1
+stage2_detector,mAP_50,0.7597,Faster R-CNN detector_baseline_v1
+stage2_detector,mAP_75,0.6763,Faster R-CNN detector_baseline_v1
+stage2_detector,AR_100,0.7385,Faster R-CNN detector_baseline_v1
+stage3_gt_crop_vlm,coarse_accuracy,0.4655,clean no-crop-path Qwen v7f prompt on 58 GT crops
+stage3_gt_crop_vlm,coarse_macro_f1,0.2882,clean no-crop-path Qwen v7f prompt
+stage3_gt_crop_vlm,visibility_accuracy,0.8448,clean no-crop-path Qwen v7f prompt
+stage3_gt_crop_vlm,visibility_macro_f1,0.5356,clean no-crop-path Qwen v7f prompt
+stage3_gt_crop_vlm,parse_success_rate,1.0000,structured output stability
+stage3_gt_crop_vlm,schema_valid_rate,1.0000,vlm_labels_v1 compatibility
+stage4_tight_pred_crop,pipeline_correct_rate,0.3621,predicted boxes padding_ratio=0.15
+stage4_tight_pred_crop,pipeline_correct_total,21,21 of 58 GT objects
+stage4_tight_pred_crop,ceiling_gap,0.1034,Stage3 ceiling minus Stage4 actual
+stage4_context_pred_crop,pipeline_correct_rate,0.3966,predicted boxes padding_ratio=0.30 max_pixels=401408
+stage4_context_pred_crop,pipeline_correct_total,23,23 of 58 GT objects
+stage4_context_pred_crop,ceiling_gap,0.0690,Stage3 ceiling minus Stage4 actual
+stage4_context_pred_crop,detector_match_rate,1.0000,58 of 58 GT objects matched
+stage4_context_pred_crop,good_crop_rate_among_matched,0.9828,57 of 58 matched boxes above good crop threshold

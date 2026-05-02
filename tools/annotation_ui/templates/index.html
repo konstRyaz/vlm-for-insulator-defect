@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Проверка VLM-меток</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <h1>Проверка VLM-меток</h1>
+        <p id="datasetInfo" class="muted">Загрузка информации о наборе...</p>
+      </div>
+      <div class="status">
+        <p id="saveСтатус" class="muted">Ожидание</p>
+      </div>
+    </header>
+
+    <section class="toolbar">
+      <div class="group">
+        <label for="categoryFilter">Категория</label>
+        <select id="categoryFilter"></select>
+      </div>
+      <div class="group">
+        <label for="statusFilter">Статус</label>
+        <select id="statusFilter">
+          <option value="all">все</option>
+          <option value="pending">ожидают проверки</option>
+          <option value="completed">завершены</option>
+        </select>
+      </div>
+      <div class="group progress-block">
+        <span id="progressText">0 / 0</span>
+        <span id="progressPct" class="muted">0%</span>
+      </div>
+      <div class="group nav-buttons">
+        <button id="prevBtn" type="button">Назад (&lt;-)</button>
+        <button id="nextBtn" type="button">Вперёд (-&gt;)</button>
+        <button id="saveBtn" type="button">Сохранить (Ctrl+S)</button>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="panel image-panel">
+        <h2>Crop</h2>
+        <div class="image-wrap">
+          <img id="cropImage" alt="Crop preview" />
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <h2>Запись</h2>
+        <div class="metadata-grid" id="metadataGrid"></div>
+
+        <div class="form-block">
+          <label>Видимость</label>
+          <div class="visibility-buttons">
+            <button type="button" class="visibility-btn" data-value="clear">1: clear</button>
+            <button type="button" class="visibility-btn" data-value="partial">2: partial</button>
+            <button type="button" class="visibility-btn" data-value="ambiguous">3: ambiguous</button>
+          </div>
+        </div>
+
+        <div class="form-block">
+          <label>Visual Evidence Tags (multi-select)</label>
+          <div id="tagsChecklist" class="tags-checklist"></div>
+          <label for="customTagsInput" class="sub-label">Custom tags (comma-separated)</label>
+          <input id="customTagsInput" type="text" placeholder="e.g. dark_trace, partial_view" />
+        </div>
+
+        <div class="form-block">
+          <label for="shortEn">Short Canonical Description (EN)</label>
+          <textarea id="shortEn" rows="2"></textarea>
+        </div>
+
+        <div class="form-block">
+          <label for="snippetEn">Report Snippet (EN)</label>
+          <textarea id="snippetEn" rows="2"></textarea>
+        </div>
+
+        <div class="form-block">
+          <label for="notes">Annotator Notes</label>
+          <textarea id="notes" rows="3"></textarea>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

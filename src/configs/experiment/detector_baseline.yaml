@@ -1,0 +1,30 @@
+# @package _global_
+# Shared experiment overrides for train/eval/infer
+run_name: detector_baseline
+
+num_classes: 5
+learning_rate: 0.0005
+epochs: 12
+image_size: 640
+resize: true
+resize_mode: pad
+batch_size: 2
+num_workers: 2
+score_threshold: 0.05
+pretrained: true
+
+train_dir: data/processed/train
+val_dir: data/processed/val
+test_dir: data/processed/test
+
+train_output_dir: outputs/train
+checkpoint_path: outputs/train/detector_baseline/best.pth
+output_dir: outputs/eval/detector_baseline
+
+vis_samples: 8
+
+class_names:
+  "1": insulator_ok
+  "2": defect_flashover
+  "3": defect_broken
+  "4": unknown
