@@ -1,29 +1,21 @@
-# Итоговый исследовательский срез
-Папка фиксирует последние компактные результаты после очистки протокола от утечки `crop_path`.
+﻿# Итоговый исследовательский срез
+
+Папка фиксирует компактные финальные материалы после очистки протокола от утечки `crop_path` и стабилизации Stage12–15.
 
 Содержимое:
 
-- `results-summary.md` — общий итог текущей исследовательской ветки.
+- `results-summary.md` — общий итог исследовательской ветки.
 - `vlm-model-comparison.md` — сравнение frozen VLM на clean Stage 3.
 - `adaptation-and-domain-audit.md` — LoRA/SFT, TL-CLIP, PowerGPT и Power-LLaVA.
 - `stage4-final-analysis.md` — парное сравнение Qwen Stage 4 и DINOv2+Qwen champion.
-- `tables/` — CSV/JSON таблицы для проверки чисел.
-- `figures/README.md` — пояснение по локальной сборке визуального обзора helped/hurt случаев.
+- `tables/` — компактные CSV/JSON с ключевыми метриками.
 
-Главный вывод: лучший текущий результат даёт не замена frozen VLM и не наивный LoRA, а гибрид `DINOv2 coarse classifier + Qwen structured reporter`. Он поднимает Stage 4 с `23/58` до `34/58` корректных объектов на clean validation slice.
+Главный вывод: лучший текущий результат даёт гибрид `DINOv2 coarse classifier + Qwen structured reporter`.
 
+## VLM как слой проверки, риска и безопасности
 
-## VLM ??? ???? ????????, ????? ? ????????????
-
-- `vlm-benefit-summary.md` ? ??????? ???? ????????? ??????????? VLM.
-- `vlm-benefit-development-value.md` ? ???????????? ?????? VLM ??? development/integration.
-- `vlm-benefit-reference-rationale.md` ? ??????????? ? ??????????? ???????????.
-- `vlm-benefit-limitations.md` ? ??????????? ? ???????????????? claims.
-- `vlm-benefit-summary-2026-05-16/` ? ????????? Stage12?15 ?????? ? ?????????? ?????????.
-
-## VLM-Benefit References
-- `reports/final/vlm-benefit-summary.md`
-- `reports/final/vlm-benefit-development-value.md`
-- `reports/final/vlm-benefit-reference-rationale.md`
-- `reports/final/vlm-benefit-limitations.md`
-- `reports/final/vlm-benefit-summary-2026-05-16/`
+- `vlm-benefit-summary.md` — краткий итог найденных преимуществ VLM.
+- `vlm-benefit-development-value.md` — практическая польза VLM для development/integration.
+- `vlm-benefit-reference-rationale.md` — интуитивное и референсное обоснование.
+- `vlm-benefit-limitations.md` — ограничения и неподтверждённые claims.
+- `vlm-benefit-summary-2026-05-16/` — подробные Stage12–15 отчёты и компактные артефакты.
