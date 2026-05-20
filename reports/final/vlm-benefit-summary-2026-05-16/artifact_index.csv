@@ -1,0 +1,32 @@
+artifact_path,artifact_type,description,source_stage,status
+reports/vlm_benefit_summary_2026-05-16/README.md,markdown,entrypoint and navigation,summary,ready
+reports/vlm_benefit_summary_2026-05-16/VLM_BENEFIT_SUMMARY.md,markdown,supervisor-ready synthesis,summary,ready
+reports/vlm_benefit_summary_2026-05-16/STAGE12_RISK_REVIEW_AND_SAFETY.md,markdown,stage12 interpretation with metrics,stage12,ready
+reports/vlm_benefit_summary_2026-05-16/STAGE13_TRADEOFF_AND_BENEFIT_EXPANSION.md,markdown,stage13 support vs proxy notes,stage13,ready
+reports/vlm_benefit_summary_2026-05-16/STAGE14_STRATIFIED_ROBUSTNESS.md,markdown,stage14 prevalence-aware robustness,stage14,ready
+reports/vlm_benefit_summary_2026-05-16/DEVELOPMENT_VALUE_AXIS.md,markdown,development/product framing,stage12-15,ready
+reports/vlm_benefit_summary_2026-05-16/LIMITATIONS.md,markdown,limitations and caveats,stage12-15,ready
+reports/vlm_benefit_summary_2026-05-16/claims_table.csv,csv,claim status table,stage12-15,ready
+reports/vlm_benefit_summary_2026-05-16/main_results_table.csv,csv,key metrics table,stage12-15,ready
+reports/vlm_benefit_summary_2026-05-16/STAGE15_DEVELOPMENT_PLAN.md,markdown,stage15 experiment plan snapshot,stage15,ready
+outputs/stage12/risk_review_final_test_v2/baseline_comparison_test.csv,source_csv,auprc historical test,stage12,source_only_not_committed
+outputs/stage12/risk_review_final_test_v2/accepted_accuracy_at_review_rates_test.csv,source_csv,accepted accuracy budgets,stage12,source_only_not_committed
+outputs/stage13_tradeoff_benefit_expansion/E01_safety_pareto/policy_sweep_bad_vs_clean.csv,source_csv,bad-crop policy metrics,stage13,source_only_not_committed
+outputs/stage14_stratified_resplit_robustness/auprc_minus_prevalence.csv,source_csv,stage14 robustness core metric,stage14,source_only_not_committed
+outputs/stage14_stratified_resplit_robustness/target_prevalence_by_split.csv,source_csv,target prevalence,stage14,source_only_not_committed
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/E02_FULL_REPORT_V2.md,markdown,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_vlm_output_distribution.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_budget_matched_metrics.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_budget_matched_tradeoff.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_pareto_frontier.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_pareto_report.md,markdown,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/policy_metrics.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/false_alarm_caught_by_e02.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/true_flashover_accepted_by_e02.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/true_flashover_overreviewed_by_e02.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_low_review_false_alarms_caught.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_low_review_true_flashover_overreviewed.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_low_review_false_alarms_missed.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/e02_flashover_overclaim_checker/e02_margin_only_extra_reviews.csv,csv,Stage15 E02 compact artifact,stage15_e02,present
+reports/vlm_benefit_summary_2026-05-16/FLASHOVER_OVERCLAIM_CHECKER_E02.md,markdown,Stage15 E02 claim-supporting narrative,stage15,present
+reports/vlm_benefit_summary_2026-05-16/SUPERVISOR_SHORT_NOTE.md,markdown,Short supervisor-ready summary in Russian,stage15,present

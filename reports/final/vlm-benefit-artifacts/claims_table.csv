@@ -1,0 +1,8 @@
+claim_id,claim,status,evidence,main_metric,caveat,report_section
+C1,VLM улучшает прямую closed-set accuracy,NOT_SUPPORTED,Direct classifier/top-k experiments,DINOv2 остаётся сильнее как classifier,Не использовать как главный тезис,vlm-benefit-limitations.md
+C2,VLM улучшает выбор случаев для ручной проверки,SUPPORTED,Stage12/13/14 risk-review experiments,AUPRC test примерно 0.41 -> 0.54; accepted accuracy @10% review примерно 0.673 -> 0.712,"Эффект умеренный, dataset маленький",vlm-benefit-summary.md
+C3,VLM помогает фильтровать ложные тревоги,SUPPORTED,False-alarm triage and Stage14 robustness,DINO+VLM лучше DINO-only для false_alarm / OK->flashover ranking,Требует field validation,vlm-benefit-summary.md
+C4,VLM помогает как bad-crop/open-set safety gate,SUPPORTED,Bad-crop stress experiments,closed-set false accept около 1.0; strict VLM false accept около 0.0133,Strict mode имеет высокий clean review,vlm-benefit-summary.md
+C5,VLM даёт надёжные structured evidence tags,NOT_SUPPORTED,Structured output / binary checklist eval,"Weak tag/checklist metrics, hallucinated defect evidence",Оставить как future work,vlm-benefit-limitations.md
+C6,VLM полезна как development/review/safety layer,SUPPORTED,"Synthesis of risk routing, false alarm, bad crop safety, E02",workflow/review/safety benefits,Не autonomous replacement,vlm-benefit-development-value.md
+C7,VLM улучшает low-review flashover overclaim triage,SUPPORTED_LOW_REVIEW,Stage15 E02 full post-eval v2 budget-matched analysis,review_count=4/36: VLM false_alarm_capture=0.2308 vs margin=0.0769; true_flashover_retention=0.9524 vs 0.8571; net_gain +2 vs -2,Не доминирует margin-only на всех budget; claim только low-review/high-precision,vlm-benefit-summary.md

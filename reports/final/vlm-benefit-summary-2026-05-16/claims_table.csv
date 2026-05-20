@@ -1,0 +1,8 @@
+claim_id,claim,status,evidence,main_metric,caveat,report_section
+C1,VLM improves direct closed-set accuracy,NOT_SUPPORTED,top-k/rerank and classifier comparisons,none,DINOv2 remains stronger,LIMITATIONS
+C2,VLM improves selective review routing,SUPPORTED,Stage12/13/14 risk-review,AUPRC and accepted_accuracy,small dataset and split variance,STAGE12_RISK_REVIEW_AND_SAFETY;STAGE14_STRATIFIED_ROBUSTNESS
+C3,VLM helps false-alarm triage,SUPPORTED,Stage13/14 false_alarm targets,false_alarm AUPRC-prevalence and capture rates,needs wider field validation,STAGE13_TRADEOFF_AND_BENEFIT_EXPANSION;STAGE14_STRATIFIED_ROBUSTNESS
+C4,VLM enables bad-crop safety gate,SUPPORTED,Stage12/13 bad-crop stress,false_accept_rate,strict mode has high clean review cost,STAGE12_RISK_REVIEW_AND_SAFETY;STAGE13_TRADEOFF_AND_BENEFIT_EXPANSION
+C5,VLM reliable structured evidence tags,NOT_SUPPORTED,structured eval and checklist branches,F1 or hallucination indicators,evidence grounding remains weak,LIMITATIONS
+C6,VLM useful as development/review layer,SUPPORTED,risk+safety+review synthesis,operational KPI set,not autonomous diagnosis,DEVELOPMENT_VALUE_AXIS
+C7,VLM improves low-review flashover overclaim triage,SUPPORTED_LOW_REVIEW,Stage15 E02 full post-eval v2 budget-matched analysis,"At review_count=4/36, VLM false_alarm_capture=0.2308 vs margin=0.0769; VLM true_flashover_review_rate=0.0476 vs margin=0.1429; net_gain +2 vs -2","Does not dominate margin-only at high review budgets; claim is low-review/high-precision triage, not raw accuracy.",FLASHOVER_OVERCLAIM_CHECKER_E02.md

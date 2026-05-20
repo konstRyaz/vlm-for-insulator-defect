@@ -1,0 +1,23 @@
+experiment,split_or_protocol,method,target,metric,value,prevalence,notes
+stage12_risk_review,historical_test,R0_dino_only,general_error,auprc,0.414659,,source: baseline_comparison_test.csv
+stage12_risk_review,historical_test,R2_dino_plus_vlm,general_error,auprc,0.545291,,source: baseline_comparison_test.csv
+stage12_risk_review,historical_test,R0_dino_only,general_error,accepted_accuracy@10,0.673077,,source: accepted_accuracy_at_review_rates_test.csv
+stage12_risk_review,historical_test,R2_dino_plus_vlm,general_error,accepted_accuracy@10,0.711538,,source: accepted_accuracy_at_review_rates_test.csv
+stage12_risk_review,historical_test,R0_dino_only,general_error,accepted_accuracy@20,0.673913,,source: accepted_accuracy_at_review_rates_test.csv
+stage12_risk_review,historical_test,R2_dino_plus_vlm,general_error,accepted_accuracy@20,0.739130,,source: accepted_accuracy_at_review_rates_test.csv
+stage12_bad_crop,stress_set,closed_set_accept_all,bad_crop,false_accept_rate,1.000000,,source: policy_sweep_bad_vs_clean.csv
+stage12_bad_crop,stress_set,strict_vlm_safety,bad_crop,false_accept_rate,0.013333,,source: policy_sweep_bad_vs_clean.csv
+stage12_bad_crop,stress_set,balanced_vlm_safety,bad_crop,false_accept_rate,0.356667,,source: policy_sweep_bad_vs_clean.csv
+stage14_resplit,repeated_stratified,dino_only,general_error,auprc_minus_prevalence_mean,0.164938,0.145,from auprc_minus_prevalence.csv and target_prevalence_by_split.csv
+stage14_resplit,repeated_stratified,dino_plus_vlm,general_error,auprc_minus_prevalence_mean,0.206558,0.145,from auprc_minus_prevalence.csv and target_prevalence_by_split.csv
+stage14_resplit,repeated_stratified,dino_only,false_alarm,auprc_minus_prevalence_mean,0.157873,0.075,from auprc_minus_prevalence.csv and target_prevalence_by_split.csv
+stage14_resplit,repeated_stratified,dino_plus_vlm,false_alarm,auprc_minus_prevalence_mean,0.344333,0.075,from auprc_minus_prevalence.csv and target_prevalence_by_split.csv
+stage14_resplit,repeated_stratified,dino_only,ok_to_flashover_false_alarm,auprc_minus_prevalence_mean,0.202382,0.056667,from auprc_minus_prevalence.csv and target_prevalence_by_split.csv
+stage14_resplit,repeated_stratified,dino_plus_vlm,ok_to_flashover_false_alarm,auprc_minus_prevalence_mean,0.446333,0.056667,from auprc_minus_prevalence.csv and target_prevalence_by_split.csv
+stage15_structured,development_value_axis,structured_evidence_tags,structured_output,support_status,unsupported,,see LIMITATIONS.md
+stage15_e02,E02_CORE (n=36),vlm_binary_rank,ok_to_flashover_false_alarm,false_alarm_capture@review4of36,0.2308,,budget-matched
+stage15_e02,E02_CORE (n=36),margin_rank,ok_to_flashover_false_alarm,false_alarm_capture@review4of36,0.0769,,budget-matched
+stage15_e02,E02_CORE (n=36),vlm_binary_rank,true_flashover,true_flashover_retention@review4of36,0.9524,,budget-matched
+stage15_e02,E02_CORE (n=36),margin_rank,true_flashover,true_flashover_retention@review4of36,0.8571,,budget-matched
+stage15_e02,E02_CORE (n=36),vlm_binary_rank,triage,net_gain@review4of36,2.0,,budget-matched
+stage15_e02,E02_CORE (n=36),margin_rank,triage,net_gain@review4of36,-2.0,,budget-matched

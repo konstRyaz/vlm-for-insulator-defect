@@ -1,0 +1,78 @@
+path,type,description,source,commit_or_stage,status
+reports/final/vlm-benefit-summary.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-development-value.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-reference-rationale.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-limitations.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-artifacts/claims_table.csv,table,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-artifacts/main_results_table.csv,table,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-summary-2026-05-16/README.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-summary-2026-05-16/VLM_BENEFIT_SUMMARY.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-summary-2026-05-16/FLASHOVER_OVERCLAIM_CHECKER_E02.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-summary-2026-05-16/SUPERVISOR_SHORT_NOTE.md,report,VLM benefit final artifact,draft+transfer package,stage12-15,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_budget_matched_metrics.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_budget_matched_tradeoff.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/E02_FULL_REPORT_V2.md,report,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_low_review_false_alarms_caught.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_low_review_false_alarms_missed.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_low_review_true_flashover_overreviewed.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_margin_only_extra_reviews.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_pareto_frontier.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_pareto_report.md,report,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/e02_vlm_output_distribution.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/false_alarm_caught_by_e02.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/policy_metrics.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/true_flashover_accepted_by_e02.csv,table,Compact E02 artifact,draft,stage15_e02,present
+reports/final/vlm-benefit-summary-2026-05-16/e02_flashover_overclaim_checker/true_flashover_overreviewed_by_e02.csv,table,Compact E02 artifact,draft,stage15_e02,present
+scripts/stage10_analyze_full_dataset_oracle.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_build_full_dataset_table.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_build_vlm_inference_manifest.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_eval_nonvlm_policy_baselines.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_eval_vlm_topk_policies.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_evaluate_topk_oracle.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_generate_dinov2_dev_oof.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_mine_hard_review_candidates.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_prepare_full_oof_plus_test_predictions.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_run_vlm_topk_inference.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage10_validate_vlm_topk_outputs.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_audit_repair_package.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_build_report_pack.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_eval_bad_crop_safety.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_eval_bad_crop_safety_v2.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_eval_grouped_tags.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_eval_risk_review_final_test.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_eval_structured_output_v2_pilot.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_generate_bad_crop_stress.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage12_train_dev_risk_models.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_build_e05_claim_manifest.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_build_e08_multiview_manifest.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_build_final_integrated_report.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_cost_sensitive_utility.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_eval_flashover_overclaim.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_real_vlm_utils.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_risk_review_budget_sweep.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_run_vlm_claim_verification.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_run_vlm_flashover_claim_checker.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_run_vlm_multiview_evidence.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage13_safety_pareto_sweep.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage14_aggregate_robustness.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage14_build_report.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage14_build_resplit_dataset.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage14_make_stratified_splits.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage14_run_resplit_risk_review.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_bad_crop_operating_modes.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_build_e02_full_manifest.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_build_final_report.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_build_reviewer_packets.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_cost_utility.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_debug_one_vlm_call.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_eval_e02_flashover_full.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_eval_e02_flashover_posteval_v2.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_eval_e02_full_policies.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_make_smoke_manifests.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_safe_path_resolver.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_safe_vlm_runner.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_shadow_field_pilot_design.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_shadow_review_queue.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_validate_jsonl_schema.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_validate_safe_outputs.py,script,Reproducibility script Stage10-15,draft,stage10-15,present
+scripts/stage15_vlm_schema_harness.py,script,Reproducibility script Stage10-15,draft,stage10-15,present

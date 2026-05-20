@@ -1,0 +1,11 @@
+experiment,protocol,method,target,metric,value,prevalence,notes
+Stage12 risk-review,historical test,DINO-only,general_error,AUPRC,0.4147,,baseline risk ranking
+Stage12 risk-review,historical test,DINO+VLM,general_error,AUPRC,0.5453,,VLM adds risk signal
+Stage12 risk-review,historical test,DINO-only,general_error,accepted_accuracy @10% review,0.6731,,baseline accepted decisions
+Stage12 risk-review,historical test,DINO+VLM,general_error,accepted_accuracy @10% review,0.7115,,better accepted decisions
+Stage12 bad-crop safety,synthetic bad crops,closed-set classifier,bad_crop,false_accept_rate,1.0000,,classifier forced to choose known class
+Stage12 bad-crop safety,synthetic bad crops,strict VLM safety,bad_crop,false_accept_rate,0.0133,,safety gate
+Stage15 E02,E02_CORE dino_top1=defect_flashover,vlm_binary_rank,OK->flashover false_alarm,false_alarm_capture @review_count=4/36,0.2308,,low-review benefit
+Stage15 E02,E02_CORE dino_top1=defect_flashover,margin_rank,OK->flashover false_alarm,false_alarm_capture @review_count=4/36,0.0769,,budget-matched baseline
+Stage15 E02,E02_CORE dino_top1=defect_flashover,vlm_binary_rank,true_flashover,true_flashover_retention @review_count=4/36,0.9524,,less overreview
+Stage15 E02,E02_CORE dino_top1=defect_flashover,margin_rank,true_flashover,true_flashover_retention @review_count=4/36,0.8571,,more overreview
