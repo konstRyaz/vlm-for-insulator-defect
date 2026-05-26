@@ -1,0 +1,280 @@
+version: 1
+name: vlm_models_registry_v1
+common:
+  stage3_base_config: configs/pipeline/stage3_vlm_gt_baseline.yaml
+  stage4_base_config: configs/stage4_detector_to_vlm_pred_val_context_pad030.yaml
+  prompt_version: qwen_vlm_labels_v1_prompt_v7f_flashover_unclear_to_unknown_nocroppath
+  ground_truth_jsonl: outputs/stage3_regrouped_v2/val/vlm_labels_v1_val_v2.annotated.jsonl
+  output_root: outputs/vlm_backbone_sweeps
+  report_dir: reports/vlm_comparison
+models:
+  qwen25vl_3b_baseline:
+    family: generative_vlm
+    group: general_qwen
+    model_id: Qwen/Qwen2.5-VL-3B-Instruct
+    backend_mode: qwen_hf
+    availability_status: runnable_existing
+    stage3_enabled: true
+    stage4_enabled: true
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides:
+      backend:
+        qwen_hf:
+          model_id: Qwen/Qwen2.5-VL-3B-Instruct
+          max_new_tokens: 220
+          do_sample: false
+          temperature: 0.0
+          max_pixels: 401408
+    notes: Canonical Qwen baseline; reconcile final 27/58 vs sweep-control 28/58.
+  qwen25vl_7b:
+    family: generative_vlm
+    group: general_qwen
+    model_id: Qwen/Qwen2.5-VL-7B-Instruct
+    backend_mode: qwen_hf
+    availability_status: already_run_stage3
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides:
+      backend:
+        qwen_hf:
+          model_id: Qwen/Qwen2.5-VL-7B-Instruct
+          max_new_tokens: 220
+          do_sample: false
+          temperature: 0.0
+          max_pixels: 401408
+    notes: 'Existing sweep: higher raw acc but poor flashover/broken recall; do not
+      promote as-is.'
+  qwen3vl_4b:
+    family: generative_vlm
+    group: general_qwen
+    model_id: Qwen/Qwen3-VL-4B-Instruct
+    backend_mode: qwen_hf
+    availability_status: already_run_stage3
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides:
+      backend:
+        qwen_hf:
+          model_id: Qwen/Qwen3-VL-4B-Instruct
+          max_new_tokens: 220
+          do_sample: false
+          temperature: 0.0
+          max_pixels: 401408
+    notes: 'Existing sweep: best raw accuracy but flashover recall collapse; needs
+      prompt repair before Stage 4.'
+  internvl3_8b:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: OpenGVLab/InternVL3-8B
+    backend_mode: internvl_hf
+    availability_status: needs_wrapper
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides:
+      backend:
+        internvl_hf:
+          model_id: OpenGVLab/InternVL3-8B
+          trust_remote_code: true
+          torch_dtype: bfloat16
+          device_map: auto
+          max_new_tokens: 220
+          do_sample: false
+    notes: Add wrapper; run preflight before full val.
+  llava_onevision_qwen2_7b:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: llava-hf/llava-onevision-qwen2-7b-ov-hf
+    backend_mode: llava_onevision_hf
+    availability_status: needs_wrapper
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides:
+      backend:
+        llava_onevision_hf:
+          model_id: llava-hf/llava-onevision-qwen2-7b-ov-hf
+          trust_remote_code: true
+          torch_dtype: auto
+          device_map: auto
+          max_new_tokens: 220
+          do_sample: false
+    notes: General VLM alternative; needs prompt/template compatibility check.
+  powergpt_power_inspection:
+    family: generative_vlm
+    group: domain_power
+    model_id: PowerGPT-power-inspection
+    backend_mode: not_runnable
+    availability_status: pending_or_related_work_only
+    stage3_enabled: false
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: Relevant power-inspection MLLM; benchmark only if public runnable weights/API/code
+      are found.
+  power_llava_transmission_inspection:
+    family: generative_vlm
+    group: domain_power
+    model_id: Power-LLaVA
+    backend_mode: not_runnable
+    availability_status: pending_or_related_work_only
+    stage3_enabled: false
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: Transmission-line inspection VLM; verify code/weights.
+  tl_clip_transmission_line:
+    family: clip_style
+    group: domain_power
+    model_id: TL-CLIP
+    backend_mode: clip_style
+    availability_status: pending_audit
+    stage3_enabled: false
+    stage4_enabled: false
+    coarse_only_enabled: true
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: Evaluate as zero-shot/feature coarse classifier, not full JSON reporter.
+  dinov2_base_logreg:
+    family: feature_encoder
+    group: general_feature
+    model_id: facebook/dinov2-base + LogisticRegression(C=0.03, class_weight=balanced)
+    backend_mode: feature_encoder
+    availability_status: runnable_existing
+    stage3_enabled: false
+    stage4_enabled: false
+    coarse_only_enabled: true
+    hybrid_enabled: true
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: Current Stage 4 hybrid champion with train-CV second-best threshold 0.35.
+  plvldet:
+    family: detector
+    group: domain_power
+    model_id: PLVLDet
+    backend_mode: not_vlm_reporter
+    availability_status: related_work_or_detector_baseline
+    stage3_enabled: false
+    stage4_enabled: false
+    coarse_only_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: Detection-oriented power-line VL model; do not put in VLM reporter table.
+  internvl3_2b_hf:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: OpenGVLab/InternVL3-2B-hf
+    backend_mode: notebook_internvl_hf
+    availability_status: completed_stage3_not_promoted
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides:
+      backend:
+        internvl_hf:
+          trust_remote_code: true
+          torch_dtype: auto
+          device_map: auto
+          max_new_tokens: 220
+          do_sample: false
+    notes: 'Completed clean Stage 3: parse/schema 1.0, acc 0.5517, macro-F1 0.2853,
+      visibility macro-F1 0.2949, tag Jaccard 0.0330. Higher raw acc than Qwen control
+      but not promoted.'
+  llava_onevision_qwen2_0_5b:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: llava-hf/llava-onevision-qwen2-0.5b-ov-hf
+    backend_mode: notebook_llava_onevision_hf
+    availability_status: completed_stage3_failed_schema_or_semantics
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides:
+      backend:
+        llava_onevision_hf:
+          trust_remote_code: true
+          torch_dtype: auto
+          device_map: auto
+          max_new_tokens: 220
+          do_sample: false
+    notes: 'Completed clean Stage 3: parse 0.7931, schema 0.2414, acc 0.1207. Failed
+      structured reporter gate.'
+  internvl3_2b_defect_recall:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: OpenGVLab/InternVL3-2B-hf + defect recall addendum
+    backend_mode: notebook_internvl_hf
+    availability_status: completed_stage3_failed_overcall_defects
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: 'Repair variant: parse/schema 1.0, acc 0.3966, macro-F1 0.2255. Overcalled
+      defects; not promoted.'
+  internvl3_2b_balanced_defect:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: OpenGVLab/InternVL3-2B-hf + balanced defect addendum
+    backend_mode: notebook_internvl_hf
+    availability_status: completed_stage3_failed_low_defect_recall
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: 'Repair variant: parse/schema 1.0, acc 0.5000, macro-F1 0.2316. Low defect
+      recall; not promoted.'
+  smolvlm2_2b_instruct:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: HuggingFaceTB/SmolVLM2-2.2B-Instruct
+    backend_mode: notebook_smolvlm_hf
+    availability_status: completed_stage3_failed_parse
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: Completed clean Stage 3 after dependency fix; parse/schema 0.0. Not a usable
+      structured reporter in this setup.
+  smolvlm2_500m_video_instruct:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: HuggingFaceTB/SmolVLM2-500M-Video-Instruct
+    backend_mode: notebook_smolvlm_hf
+    availability_status: completed_stage3_failed_class_collapse
+    stage3_enabled: true
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: 'Completed clean Stage 3: parse/schema 0.6034, acc 0.3276, macro-F1 0.1134.
+      Collapsed to ok/unknown behavior.'
+  phi35_vision_instruct:
+    family: generative_vlm
+    group: general_open_vlm
+    model_id: microsoft/Phi-3.5-vision-instruct
+    backend_mode: generic_hf_attempt
+    availability_status: preflight_failed_generic_pipeline_incompatible
+    stage3_enabled: false
+    stage4_enabled: false
+    requires_gpu: true
+    requires_api_key_env: null
+    config_overrides: {}
+    notes: AutoModelForImageTextToText did not recognize Phi3VConfig in the current
+      notebook path. Not counted as a benchmark failure.

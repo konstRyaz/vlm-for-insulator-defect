@@ -9,3 +9,10 @@
 - визуализация: `visualize_stage3_eval_results.py`, `visualize_stage4_eval_results.py`;
 - гибридная ветка: `hybrid_merge_qwen_reporter.py`;
 - финальный анализ: `analyze_stage4_paired_cases.py`, `audit_no_leak_stage3_stage4.py`, `build_stage4_visual_review.py`.
+
+## Stage-группы скриптов
+- Stage10: top-k oracle/reranker diagnostics.
+- Stage12: risk-review, bad-crop safety, structured-output audit.
+- Stage13: trade-off, safety pareto, cost utility, claim/multiview diagnostics.
+- Stage14: stratified robustness.
+- Stage15: safe VLM runner, E02 flashover checker, development-value experiments.

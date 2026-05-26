@@ -1,0 +1,45 @@
+repo:
+  url: "https://github.com/konstRyaz/vlm-for-insulator-defect-detection.git"
+  branch: "next_research_vlm_benefit"
+
+paths:
+  kaggle_data_root: "/kaggle/input/datasets/kostyaryazanov/idid-coco-v3/stage3_regrouped_v2"
+  full_stage8_output_root: "/kaggle/working/stage8_vlm_assisted_repair_results"
+  full_stage8_archive_path: "/kaggle/working/stage8_vlm_assisted_repair_results.tar.gz"
+  policy_output_root: "/kaggle/working/stage9_policy_sweep"
+  zero_shot_output_root: "/kaggle/working/stage10_zero_shot_fair"
+  lora_output_root: "/kaggle/working/stage11_qwen_lora_sft"
+
+policy_sweep:
+  margin_thresholds: [0.000, 0.0025, 0.005, 0.0075, 0.010, 0.015, 0.020, 0.030, 0.050]
+  accepted_accuracy_target: 0.70
+  max_review_rate: 0.50
+  dangerous_miss_positive_classes: ["defect_flashover", "defect_broken"]
+  negative_class: "insulator_ok"
+
+zero_shot:
+  clip_model: "openai/clip-vit-base-patch32"
+  qwen_model: "Qwen/Qwen2.5-VL-3B-Instruct"
+  max_samples: 58
+  class_prompts:
+    insulator_ok:
+      - "a photo of a normal high-voltage insulator without visible defects"
+      - "an intact electrical insulator with clean normal surface"
+    defect_flashover:
+      - "a photo of an electrical insulator with flashover burn marks and dark arc traces"
+      - "an insulator damaged by flashover with carbonization and dark surface track"
+    defect_broken:
+      - "a photo of a broken electrical insulator with missing or cracked parts"
+      - "an insulator with mechanical damage, broken shed or missing fragment"
+
+lora:
+  enabled: false
+  base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
+  max_train_samples: 105
+  max_val_samples: 58
+  epochs: 1
+  learning_rate: 0.0002
+  lora_r: 8
+  lora_alpha: 16
+  lora_dropout: 0.05
+  note: "Enable only after full Stage 8 repair-run and smoke checks are clean."

@@ -1,0 +1,53 @@
+version: 1
+name: stage12_dev_evidence_probe_v1
+input:
+  dataset_jsonl: outputs/stage12/dev_evidence_dataset/stage12_dev_evidence_dataset.jsonl
+  image_root: null
+output:
+  root_dir: outputs/stage12_evidence_probe_runs
+  save_raw_payload: true
+run:
+  run_id: auto
+  resume: true
+  max_samples: null
+  sample_ids_file: null
+  fail_fast: false
+backend:
+  mode: qwen_hf
+  fallback_to_mock_if_unavailable: false
+  qwen_hf:
+    provider: huggingface_transformers
+    model_id: Qwen/Qwen2.5-VL-3B-Instruct
+    trust_remote_code: true
+    torch_dtype: auto
+    device_map: auto
+    attn_implementation: null
+    max_new_tokens: 260
+    do_sample: false
+    temperature: 0.0
+    top_p: 1.0
+    add_generation_prompt: true
+prompt:
+  version: stage12_vlm_evidence_probe_v1_nocroppath
+  versions:
+    stage12_vlm_evidence_probe_v1_nocroppath:
+      system_path: configs/pipeline/prompts/stage12_vlm_system_evidence_probe_v1.txt
+      user_path: configs/pipeline/prompts/stage12_vlm_user_evidence_probe_v1_nocroppath.txt
+prediction_contract:
+  mode: reduced_subset_v1
+  model_predicted_core_fields:
+  - coarse_class
+  - visual_evidence_tags
+  - visibility
+  - short_canonical_description_en
+  - report_snippet_en
+  model_optional_debug_fields:
+  - annotator_notes
+  derived_fields:
+  - needs_review = (visibility == 'ambiguous')
+  - short_canonical_description = short_canonical_description_en
+  - report_snippet = report_snippet_en
+  copied_metadata_fields:
+  - record_id
+  - split
+  - image_path

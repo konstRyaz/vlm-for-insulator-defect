@@ -1,0 +1,24 @@
+Analyze the provided insulator crop image and return one JSON object.
+
+Metadata for traceability:
+- record_id: {{record_id}}
+- split: {{split}}
+- source: {{source}}
+
+Return JSON only.
+Required keys:
+["coarse_class", "visual_evidence_tags", "visibility", "short_canonical_description_en", "report_snippet_en"]
+Optional key:
+["annotator_notes"]
+
+Allowed coarse_class values:
+["insulator_ok", "defect_flashover", "defect_broken", "unknown", "other"]
+
+Use this schema shape (replace placeholders with real values):
+{
+  "coarse_class": "<allowed_value>",
+  "visual_evidence_tags": ["<tag_1>", "<tag_2>"],
+  "visibility": "<clear|partial|ambiguous>",
+  "short_canonical_description_en": "<short grounded sentence>",
+  "report_snippet_en": "<one concise report sentence>"
+}

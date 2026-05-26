@@ -1,0 +1,4 @@
+both_right_same,both_wrong_different,both_wrong_same,candidate,helped_wrong_to_right,hurt_right_to_wrong,paired_csv
+16,7,7,internvl3_2b_base,16,12,reports\vlm_comparison\paired_internvl3_2b_base_vs_qwen.csv
+16,8,15,internvl3_2b_defect_recall,7,12,reports\vlm_comparison\paired_internvl3_2b_defect_recall_vs_qwen.csv
+14,8,7,internvl3_2b_balanced_defect,15,14,reports\vlm_comparison\paired_internvl3_2b_balanced_defect_vs_qwen.csv

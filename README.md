@@ -1,54 +1,97 @@
-﻿# Исследование дефектов изоляторов ЛЭП с использованием детектора и VLM
+# VLM for Insulator Defect Detection
 
-Репозиторий содержит исследовательскую версию конвейера анализа изображений изоляторов:
+Итоговый чистый репозиторий исследования по применению vision-language models для анализа дефектов изоляторов.
 
-```text
-изображение -> детектор объекта -> crop изолятора -> VLM/гибридная модель -> структурированное описание дефекта
-```
+## Краткий итог
 
-Цель проекта — оценить, где VLM реально добавляет пользу поверх классического визуального классификатора.
-
-## Текущий статус
-
-Ключевые зафиксированные результаты:
-
-| Этап | Метод | Метрика | Значение |
-|---|---|---:|---:|
-| Stage 2 | Faster R-CNN, COCO-оценка | mAP@[0.50:0.95] | 0.5664 |
-| Stage 2 | Faster R-CNN, COCO-оценка | mAP@0.50 | 0.7597 |
-| Stage 3 | Qwen2.5-VL-3B на GT-crop | coarse accuracy | 0.4655 |
-| Stage 4 | Qwen2.5-VL-3B на crop детектора (pad=0.30) | pipeline correct | 23/58 = 0.3966 |
-| Stage 4 | DINOv2 coarse classifier + Qwen structured reporter | pipeline correct | 34/58 = 0.5862 |
-
-Лучший промежуточный вариант — гибридная Stage 4 схема:
+В проекте проверялась идея использования VLM в pipeline инспекции изоляторов:
 
 ```text
-crop детектора -> DINOv2 признаки -> LogisticRegression coarse_class -> Qwen2.5-VL структурирует остальные поля
+изображение
+→ detector / crop
+→ DINOv2 classifier
+→ VLM review/safety layer
+→ автоматическое решение или ручная проверка
 ```
 
-## Основные документы
+Главный вывод: **VLM не стала лучшей заменой DINOv2-классификатора по raw accuracy**, но дала пользу в другой роли — как дополнительный слой проверки, риска и безопасности поверх DINOv2.
 
-- `docs/01_problem_statement.md`
-- `docs/02_data_and_format.md`
-- `docs/03_detector_baseline.md`
-- `docs/04_vlm_protocol.md`
-- `docs/05_gibrid_dinov2_qwen.md`
-- `docs/06_reproducibility.md`
-- `docs/07_vlm_topk_reranker_protocol.md`
+DINOv2 отвечает на вопрос:
 
-## Поздние результаты по VLM-benefit
+```text
+какой класс?
+```
 
-DINOv2 остаётся основным closed-set классификатором. VLM не показала себя как лучшая замена классификатора по raw accuracy, но дала пользу как дополнительный review/safety слой поверх DINOv2.
+VLM помогает ответить на вопрос:
 
-Основные найденные преимущества VLM:
-- выбор рискованных случаев для ручной проверки;
-- фильтрация ложных тревог, особенно `insulator_ok -> defect_flashover`;
-- low-review flashover overclaim checker;
-- bad-crop / open-set safety gate.
+```text
+можно ли доверять этому автоматическому решению без человека?
+```
 
-Подробные отчёты:
-- `reports/final/vlm-benefit-summary.md`
-- `reports/final/vlm-benefit-development-value.md`
-- `reports/final/vlm-benefit-reference-rationale.md`
-- `reports/final/vlm-benefit-limitations.md`
-- `reports/final/vlm-benefit-summary-2026-05-16/`
+## Основные найденные преимущества VLM
+
+1. **Проверка рискованных случаев**
+   VLM помогает выбирать, какие случаи отправить на ручную проверку. В экспериментах DINO+VLM улучшил AUPRC для поиска ошибок примерно с `0.41` до `0.54`, а accepted accuracy при `10% review` выросла примерно с `0.6731` до `0.7115`.
+
+2. **Фильтрация ложных тревог**
+   VLM помогает находить случаи, где DINOv2 слишком резко объявляет дефект на нормальном изоляторе, особенно ошибки вида `insulator_ok -> defect_flashover`.
+
+3. **Low-review flashover overclaim checker**
+   На subset, где DINOv2 предсказал `defect_flashover`, при одинаковом малом бюджете review `4/36` VLM поймала больше ложных тревог, чем margin-only: `0.2308` против `0.0769`, и лучше сохранила настоящие flashover: `0.9524` против `0.8571`.
+
+4. **Bad-crop / open-set safety gate**
+   Обычный closed-set classifier обязан выбрать класс даже на плохом crop. VLM может сказать, что crop непригоден для автоматической классификации. В экспериментах closed-set baseline имел bad-crop false accept около `1.0`, а строгий VLM safety-режим снижал его примерно до `0.0133`.
+
+5. **Development / review layer**
+   VLM полезна для построения более практичного human-in-the-loop pipeline: review flags, reason codes, bad-crop flags, false-alarm checks и будущие карточки инспектора.
+
+## Главные отчёты
+
+- `reports/final/vlm-benefit-summary.md` — краткий итог найденных преимуществ.
+- `reports/final/vlm-benefit-development-value.md` — практическая польза VLM для development/integration.
+- `reports/final/vlm-benefit-reference-rationale.md` — интуитивное и референсное обоснование.
+- `reports/final/vlm-benefit-limitations.md` — ограничения и неподтверждённые claims.
+- `reports/final/vlm-benefit-summary-2026-05-16/` — подробные Stage12–15 отчёты и компактные артефакты.
+
+## Что не является главным claim
+
+- VLM не улучшила прямую closed-set classification accuracy.
+- VLM не стала надёжным top-k reranker.
+- Structured evidence tags пока недостаточно надёжны.
+- E02 flashover checker поддержан именно как low-review/high-precision triage, а не как универсальное доминирование над margin-only на всех review budgets.
+
+## Структура
+
+```text
+docs/                         методологические документы и runbook-и
+reports/final/                финальные русскоязычные отчёты
+reports/final/tables/         компактные таблицы старых Stage3/4 результатов
+reports/final/vlm-benefit-*   финальная история Stage12–15 по VLM-benefit
+scripts/                      воспроизводимые скрипты экспериментов
+src/                          основной код проекта
+configs/                      конфиги pipeline/model runs
+notebooks/                    только ключевые notebooks/runbook scripts
+```
+
+## Не включается в чистый репозиторий
+
+В чистый репозиторий не должны попадать тяжёлые runtime-артефакты:
+
+```text
+outputs/
+raw_outputs.jsonl
+data/raw/**/images
+data/processed/**/images
+*.zip
+*.rar
+__pycache__/
+*.pyc
+kaggle_upload/
+kaggle_runs/
+```
+
+## Финальные материалы по истории экспериментов
+- `reports/final/experiment-timeline.md` — хронология Stage1–15.
+- `reports/final/structured-output-comparison.md` — сравнение VLM по JSON/schema/visibility/evidence tags.
+- `REPRODUCIBILITY.md` — что воспроизводится из clean repo и какие внешние данные нужны.
+- `DATA_ACCESS.md` — данные и исключённые heavy artifacts.
