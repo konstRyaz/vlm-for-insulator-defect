@@ -1,26 +1,26 @@
-# VLM comparison plan
+# План сравнения VLM
 
-The next operation compares frozen VLM backbones under the clean Stage 3 protocol.
+Следующий этап — сравнить разные frozen VLM в чистом Stage 3-протоколе.
 
-The comparison rule is simple. A candidate sees the crop image and the clean task prompt only. It must output the same `vlm_labels_v1` fields. It does not receive the crop path, folder name, detector class, ground-truth class, or annotation text.
+Правило сравнения простое: модель получает только crop-изображение и clean prompt с описанием задачи. Она должна выдать те же поля формата `vlm_labels_v1`. Модель не получает путь к crop, имя папки, класс от детектора, ground-truth класс или текст аннотации.
 
-The first two non-Qwen candidates are:
+Первые две non-Qwen модели для проверки:
 
-| notebook | candidate | purpose |
+| notebook | модель | цель |
 |---|---|---|
-| `stage3_vlm_triage_internvl3_2b_clean` | `OpenGVLab/InternVL3-2B-hf` | small InternVL family preflight and clean test test |
-| `stage3_vlm_triage_llava_onevision_0_5b_clean` | `llava-hf/llava-onevision-qwen2-0.5b-ov-hf` | small LLaVA-OneVision compatibility and clean test test |
+| `stage3_vlm_triage_internvl3_2b_clean` | `OpenGVLab/InternVL3-2B-hf` | проверить небольшую модель семейства InternVL на совместимость и качество в clean test |
+| `stage3_vlm_triage_llava_onevision_0_5b_clean` | `llava-hf/llava-onevision-qwen2-0.5b-ov-hf` | проверить совместимость небольшой LLaVA-OneVision и качество в clean test |
 
-A model is worth promoting only if it passes parse/schema checks and improves more than noise. On 58 objects, one object is about 1.7 percentage points, so tiny changes should not be overinterpreted.
+Модель имеет смысл продвигать дальше только если она проходит проверки parse/schema и даёт улучшение больше уровня шума. На 58 объектах один объект — это примерно 1.7 процентного пункта, поэтому очень маленькие изменения не стоит переинтерпретировать.
 
-Promotion gate:
+Критерии продвижения:
 
-| metric | desired signal |
+| метрика | желательный сигнал |
 |---|---|
-| parse success | 1.0 or near 1.0 with easy formatting repair |
-| schema valid | 1.0 or near 1.0 with easy formatting repair |
-| coarse accuracy | better than Qwen3B by more than one object |
-| macro-F1 | improves class balance, not only normal-class accuracy |
-| flashover vs ok | fewer destructive trade-offs than Qwen prompt sweeps |
+| parse success | `1.0` или почти `1.0`, если формат легко исправить |
+| schema valid | `1.0` или почти `1.0`, если схема легко исправляется |
+| coarse accuracy | лучше Qwen3B больше чем на один объект |
+| macro-F1 | улучшает баланс классов, а не только accuracy на нормальных изоляторах |
+| flashover vs ok | не даёт разрушительного обмена, где flashover почти пропадает ради лучшего `insulator_ok` |
 
-If no frozen VLM improves clean Stage 3, the next serious path remains domain adaptation or a hybrid discriminative coarse classifier plus Qwen reporter.
+Если ни одна frozen VLM не улучшает чистый Stage 3, то следующий серьёзный путь — не дальнейший перебор frozen-моделей, а адаптация под задачу или гибрид: отдельный дискриминативный coarse-классификатор плюс Qwen как генератор структурированного описания.

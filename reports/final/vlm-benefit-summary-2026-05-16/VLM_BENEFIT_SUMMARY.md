@@ -1,25 +1,18 @@
-﻿# Сводка VLM-benefit (Supervisor-ready)
+# Итоговая сводка по VLM-benefit
 
-## Итоговая позиция
-DINOv2 остаётся основным closed-set классификатором.
-VLM не заменяет его по raw accuracy, но добавляет пользу как review/safety слой.
+## Главная позиция
 
-## SUPPORTED
-1. Улучшение risk/review routing.
-2. Улучшение false-alarm triage.
-3. Low-review flashover overclaim checker (E02).
-4. Bad-crop/open-set safety gate.
+DINOv2 остаётся основным классификатором дефектов. VLM полезна не как replacement classifier, а как дополнительный слой проверки, риска и безопасности поверх DINOv2.
 
-Ключевой E02 результат (subset `dino_top1 == defect_flashover`, бюджет review `4/36`):
-- VLM false_alarm_capture = `0.2308` vs margin = `0.0769`
-- VLM true_flashover_review_rate = `0.0476` vs margin = `0.1429`
-- net_gain `+2` vs `-2`
+## Поддержанные эффекты
 
-## NOT SUPPORTED
-1. Улучшение raw closed-set accuracy.
-2. Универсальное превосходство в top-k reranking.
-3. Стабильно надёжные structured evidence tags.
-4. Универсальное доминирование над margin-only на всех review-бюджетах.
+1. VLM помогает выбирать рискованные случаи для ручной проверки.
+2. VLM помогает фильтровать ложные тревоги, особенно `insulator_ok -> defect_flashover`.
+3. VLM даёт low-review flashover overclaim checker.
+4. VLM помогает строить bad-crop/open-set safety gate.
+5. Stage 14 показал, что найденная польза VLM для ручной проверки и оценки риска сохраняется на новых, более сбалансированных разбиениях данных. Это важно: результат не выглядит случайным следствием старого неудачного разбиения.
+   
+## Неподдержанные эффекты
 
-## Финальная формулировка
-DINOv2 остаётся основным классификатором. VLM полезна как слой проверки и безопасности: лучше маршрутизирует случаи в review, помогает ловить ложные тревоги, даёт low-review flashover checker и улучшает bad-crop safety.
+1. VLM не улучшила raw closed-set accuracy как прямой классификатор.
+2. VLM не стала надёжным top-k reranker.

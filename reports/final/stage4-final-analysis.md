@@ -1,6 +1,6 @@
 # Финальный Stage 4 анализ
 
-Финальное парное сравнение смотрит на один и тот же набор из 58 GT objects. Baseline — Qwen Stage 4 с context pad 0.30. Candidate — DINOv2+Qwen champion `stage4_dinov2_packfix_secondbest035`.
+Финальное парное сравнение смотрит на один и тот же набор из 58 GT objects. Baseline -- Qwen Stage 4 с context pad 0.30. Candidate -- DINOv2+Qwen champion `stage4_dinov2_packfix_secondbest035`.
 
 | metric | value |
 |---|---:|
@@ -17,9 +17,7 @@
 | sign-test p | 0.0708 |
 | bootstrap delta 95% CI | [0.0000, 0.3793] |
 
-Парный анализ показывает не только рост accuracy, но и характер trade-off. Гибрид заметно помогает на дефектных классах, особенно там, где Qwen-only reporter колебался между normal и flashover/broken. Цена — часть normal crops начинает уходить в defect classes.
-
-No-leak audit по текущим champion-артефактам прошёл: `30` файлов просканировано, `0` prompt-visible hits. Это не означает, что в артефактах вообще нет class/path строк: такие строки допустимы в manifests, predictions и case tables. Критично именно то, что они не попадают в prompt-visible input.
+Парный анализ показывает не только рост accuracy, но и характер trade-off. Гибрид заметно помогает на дефектных классах, особенно там, где Qwen-only reporter колебался между normal и flashover/broken. Цена -- часть normal crops начинает уходить в defect classes.
 
 Для ручного просмотра helped/hurt случаев сохранён HTML:
 

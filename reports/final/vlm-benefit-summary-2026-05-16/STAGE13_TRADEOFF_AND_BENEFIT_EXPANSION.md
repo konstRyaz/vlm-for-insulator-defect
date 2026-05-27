@@ -1,21 +1,14 @@
-# Stage13: Tradeoff and Benefit Expansion
+# Stage13: trade-off и расширение benefit-ов
 
-## Что исследовали
-- safety tradeoff: strict vs balanced vs lenient;
-- false-alarm triage;
-- cost-sensitive utility;
-- detector/VLM integration hypotheses;
-- claim verification / overclaim checker / multiview branch.
+Stage13 исследовал, как сохранить найденные преимущества VLM и уменьшить побочные эффекты.
 
-## Supported
-- `risk/review` branch подтверждена (продолжает Stage12).
-- `bad-crop safety` tradeoff подтвержден (strict снижает bad false accept, balanced снижает review-cost).
-- `cost-sensitive utility` как operational framing поддержан (иллюстративный economic layer).
+## Главные выводы
 
-## Diagnostic / Proxy / Caveat
-- Flashover overclaim checker: **DIAGNOSTIC_ONLY** для части ранних прогонов; использовать только реальные run artifacts.
-- Claim verification: **DIAGNOSTIC_ONLY/PROXY_ONLY** в частях, где был mapping/remap вместо отдельного независимого inference цикла.
-- Detector+VLM crop guard: **DIAGNOSTIC_ONLY**, если в конкретном варианте не были полноценно задействованы независимые detector-geometry признаки.
+1. Risk/review benefit подтвердился как наиболее полезное направление.
+2. Bad-crop safety имеет trade-off: строгий режим безопаснее, но чаще отправляет clean crop на review.
+3. False-alarm triage стал перспективным направлением, особенно для `insulator_ok -> defect_flashover`.
+4. Некоторые направления остались proxy-only или diagnostic-only и не должны подаваться как доказанные claims.
 
-## Вывод
-Stage13 усилил идею operational value, но часть архитектурных веток следует трактовать как диагностические, а не как финальные доказательства.
+## Ограничения
+
+Flashover overclaim checker стал полноценным claim-supporting экспериментом только позже, после исправления safe VLM runner и полного E02 post-eval.

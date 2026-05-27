@@ -1,25 +1,20 @@
 # Хронология экспериментов
 
-Этапы ниже отражают развитие исследования от базового detector/crop pipeline до итоговой роли VLM как review/safety layer. Не все этапы являются самостоятельными финальными claims: часть была диагностической, часть — технической, часть — отрицательной. Финальные поддержанные выводы сформированы в Stage12–15.
 
 | Stage | Смысл этапа | Что делали | Главный вывод |
 |---|---|---|---|
-| Stage 1 | Постановка задачи и данные | Разобрали IDID, структуру изображений, bbox-разметку, классы дефектов. | Нужно строить pipeline `image → detector → crop → classifier/VLM → structured output`. |
-| Stage 2 | Конвертация данных и detector baseline | COCO-style conversion, detector-разметка, train/val/test, detector/crop pipeline. | Основа проекта — detector/crop-представление. |
-| Stage 3 | Первые VLM и crop-level эксперименты | VLM на GT-crop, prompt sweep, `vlm_labels_v1`, structured JSON. | VLM может давать structured output, но как прямой classifier нестабильна. |
-| Stage 4 | Detector-to-VLM и DINOv2 hybrid | Predicted detector crop, DINOv2 features + LogisticRegression/policy, Qwen structured reporter. | DINOv2-based hybrid сильнее прямой VLM классификации; старый champion около `34/58 = 0.5862`. |
-| Stage 5 | Расширение no-VLM baseline и backbone sweep | Разные visual features/backbone, HF/timm, flashover binary, SVM/review варианты. | Frozen visual features + лёгкий classifier дают сильный baseline. |
-| Stage 6 | Full-train / stress / rescue | Дожимали no-VLM baseline, стресс-тестировали VLM, искали rescue-benefit. | VLM плохо подавать как replacement classifier; лучше искать safety/review/explainability. |
-| Stage 7 | VLM-assisted architectures | VLM verifier, DINO+Qwen verifier, review gate, contradiction checker, multi-crop, retrieval few-shot. | VLM override часто портит class accuracy, но reviewer/checker роль остаётся перспективной. |
-| Stage 8 | Prompt repair и JSON validity | Исправляли prompt-ы, enum-форматы, schema validation, raw JSON. | Без строгого output schema нельзя честно оценивать VLM. |
-| Stage 9 | Первые safety/review benefits | Policy sweep, bad-crop/open-set checker, испорченные crop. | Нашёлся сильный safety benefit: VLM может отказаться от плохого crop. |
-| Stage 10 | Top-k oracle и reranker potential | Full-dataset table, DINOv2 OOF top-k predictions, top-2/top-3 oracle. | Oracle высок, но это потенциал; VLM reranking сам по себе не стал сильным claim. |
-| Stage 11 | LoRA / fine-tuning feasibility | Проверяли возможность VLM LoRA/SFT как supervised направления. | Не стало главным результатом текущей работы. |
-| Stage 12 | Risk-review, bad-crop safety, structured-output audit | Review routing, accepted accuracy, bad-crop safety, evidence tags/checklist. | Подтвердились review/risk и bad-crop benefits; structured tags слабые. |
-| Stage 13 | Trade-off и расширение benefit-ов | Strict vs balanced safety, false-alarm triage, cost utility, claim/multiview diagnostics. | Укрепился нарратив VLM как risk/safety layer; часть направлений осталась diagnostic-only. |
-| Stage 14 | Stratified split robustness | Repeated stratified splits для проверки устойчивости. | Review/risk benefit не развалился на более нормальных split-ах. |
-| Stage 15 | Development-value и E02 flashover checker | Safe VLM runner, shadow review queue, E02 full inference/post-eval. | Поддержан low-review flashover overclaim checker. |
-
-## Главная траектория
-
-Исследование началось с попытки использовать VLM как прямой классификатор дефектов, но эксперименты показали, что DINOv2 baseline сильнее по raw accuracy. После этого фокус был перенесён на другую роль VLM: слой проверки, риска и безопасности. В этой роли VLM дала подтверждённые преимущества: выбор случаев для ручной проверки, фильтрация ложных тревог, отсеивание плохих crop и low-review проверка спорных flashover-предсказаний.
+| Stage 1 | Постановка задачи и данные | Разобрали датасет IDID, структуру изображений, bbox-разметку и классы дефектов. | Нужно строить схему `изображение → детектор → crop → классификатор/VLM → структурированный вывод`. |
+| Stage 2 | Подготовка данных и базовый детектор | Делали конвертацию разметки в COCO-формат, готовили разметку, разбиения данных и схему получения crop. | Основа проекта — работа не со всем изображением сразу, а с crop-изображением изолятора, найденным детектором. |
+| Stage 3 | Первые VLM и эксперименты на crop-уровне | Запускали VLM на crop из ground-truth bbox, подбирали prompt, проверяли `vlm_labels_v1` и структурированный JSON. | VLM может выдавать структурированный JSON, но как прямой классификатор дефекта она нестабильна. |
+| Stage 4 | Связка детектора, DINOv2 и VLM | Перешли к crop от детектора, использовали признаки DINOv2, лёгкий классификатор и Qwen как генератор структурированного описания. | Гибрид на DINOv2 оказался сильнее прямой VLM-классификации; старый лучший результат был около `34/58 = 0.5862`. |
+| Stage 5 | Усиление baseline без VLM | Проверяли разные визуальные признаки, backbone-модели, HF/timm-варианты, flashover binary и SVM/review-подходы. | Замороженные визуальные признаки + лёгкий обучаемый классификатор дают сильный baseline, с которым VLM трудно конкурировать по обычной accuracy. |
+| Stage 6 | Дожимание baseline и стресс-тесты VLM | Усиливали no-VLM baseline, стресс-тестировали VLM и искали, где VLM может дать пользу после слабых результатов в прямой классификации. | VLM плохо выглядит как замена классификатора; перспективнее искать пользу в проверке, безопасности и объяснении решений. |
+| Stage 7 | Архитектуры с VLM как помощником | Проверяли VLM как верификатор, связку DINO+Qwen, review gate, проверку противоречий, несколько crop, retrieval few-shot и другие схемы. | Когда VLM разрешено переписывать класс, она часто портит accuracy; роль проверяющего/ревьюера выглядит перспективнее. |
+| Stage 8 | Исправление prompt-ов и проверка JSON | Исправляли prompt-ы, enum-форматы, проверку схемы и валидность JSON-ответов. | Без строгой схемы вывода и проверки JSON нельзя честно сравнивать VLM. |
+| Stage 9 | Первые преимущества в safety/review | Делали перебор правил, проверяли плохие crop, open-set сценарии и искусственно испорченные изображения. | Нашёлся сильный safety-эффект: VLM может отказаться от решения на плохом crop, а обычный классификатор обязан выбрать класс. |
+| Stage 10 | Потенциал top-k и reranking | Собрали полную таблицу данных, получили DINOv2 top-k предсказания и посчитали top-2/top-3 oracle. | Top-2/top-3 oracle оказался высоким, но это только потенциал; сам VLM-reranking не стал сильным подтверждённым результатом. |
+| Stage 11 | Проверка идеи дообучения VLM | Рассматривали LoRA / дообучение VLM как отдельное supervised-направление. | Это направление не стало главным итогом текущей работы; важнее оказался frozen VLM как слой проверки и безопасности. |
+| Stage 12 | Ручная проверка, плохие crop и структурированный вывод | Проверяли выбор случаев для review, accepted accuracy, bad-crop safety, evidence tags и checklist-поля. | Подтвердились review/risk и bad-crop преимущества; structured tags оказались слабыми. |
+| Stage 13 | Баланс пользы и побочных эффектов | Исследовали строгие и мягкие режимы безопасности, фильтрацию ложных тревог, стоимость ошибок и диагностические claim/multiview-направления. | Укрепился вывод, что VLM полезна как слой риска и безопасности; часть направлений осталась только диагностикой. |
+| Stage 14 | Проверка устойчивости на новых разбиениях | Делали повторные стратифицированные разбиения, чтобы проверить, не является ли эффект артефактом старого split. | Основной review/risk benefit не развалился на более нормальных разбиениях данных. |
+| Stage 15 | Практическая польза и проверка спорных flashover | Чинили безопасный VLM-runner, строили очередь ручной проверки| Поддержан benefit VLM как проверяющего слоя для спорных flashover-предсказаний при малом бюджете ручной проверки. |

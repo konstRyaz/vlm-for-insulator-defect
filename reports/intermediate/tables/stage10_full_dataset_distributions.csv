@@ -1,0 +1,12 @@
+section,value,count
+label_coarse_class,insulator_ok,189
+label_coarse_class,defect_flashover,30
+label_coarse_class,defect_broken,21
+label_visibility,clear,223
+label_visibility,ambiguous,12
+label_visibility,partial,5
+label_needs_review,False,228
+label_needs_review,True,12
+split,train,182
+split,val,58
+source,gt,240

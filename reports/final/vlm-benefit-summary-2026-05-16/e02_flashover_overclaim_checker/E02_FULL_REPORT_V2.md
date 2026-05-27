@@ -1,15 +1,16 @@
-# E02 Full Post-Eval V2
+# E02: итоговая оценка после полного прогона
 
-- core_n: 36
-- budget_matched_check: review_count=4 (0.1111)
+## Главный результат
 
-## Budget-matched comparison (k=4)
-- vlm_binary_rank false_alarm_capture_rate: 0.2308
-- margin_rank false_alarm_capture_rate: 0.0769
-- vlm_binary_rank true_flashover_retention: 0.9524
-- margin_rank true_flashover_retention: 0.8571
+При одинаковом малом бюджете ручной проверки `4/36` ранжирование с помощью VLM оказалось лучше, чем проверка только по margin, для поиска ложных тревог вида `insulator_ok → defect_flashover`.
 
-## Claim decision
-SUPPORTED
+```text
+VLM:
+доля пойманных ложных тревог = 0.2308
+сохранение настоящих flashover = 0.9524
+чистый выигрыш = +2
 
-Interpretation: VLM behaves as low-review interpretable triage. If margin dominates on matched budget, E02 is partially supported rather than a strict quantitative win.
+Margin-only:
+доля пойманных ложных тревог = 0.0769
+сохранение настоящих flashover = 0.8571
+чистый выигрыш = -2

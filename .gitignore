@@ -1,33 +1,39 @@
-# Локальное окружение
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment
 .venv/
 venv/
 .env
 .env.*
 
-# Данные и результаты запусков
-data/*
-!data/README.md
-outputs/*
-!outputs/README.md
+# IDE
+.idea/
+.vscode/
 
-# Кэш Python и Jupyter
-__pycache__/
-*.py[cod]
-*$py.class
-.ipynb_checkpoints/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+# Heavy / generated artifacts
+outputs/
+kaggle_upload/
+kaggle_runs/
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
 
-# Отчёты покрытия и временные файлы
-htmlcov/
-.coverage
-coverage.xml
-*.log
+# Raw generated VLM outputs
+raw_outputs.jsonl
+**/raw_outputs.jsonl
 
-# Системные файлы
+# Data images
+data/raw/**/images/
+data/processed/**/images/
+
+# OS
 .DS_Store
 Thumbs.db
-
-# Локальные заметки
-notes/*.local.md

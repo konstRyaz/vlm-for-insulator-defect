@@ -1,0 +1,9 @@
+metric,value
+n_label_rows_raw,240
+n_prediction_rows_raw,240
+n_unique_label_record_id,240
+n_unique_prediction_record_id,240
+n_joined_rows,240
+n_matched_labels_and_predictions,240
+n_missing_predictions,0
+n_missing_labels,0

@@ -12,5 +12,5 @@
 Основные срезы:
 
 - `intermediate/` — промежуточная фиксация Stage 3/Stage 4 и первого гибрида.
-- `final/` — итоговый clean-срез: frozen VLM comparison, LoRA/SFT, domain-model audit, paired Stage 4 champion analysis.
+- `final/` — итоговый срез.
 

@@ -1,44 +1,42 @@
-﻿# Qwen3-4B Prompt Repair Result
+﻿# Результат prompt repair для Qwen3-4B
 
-This run tested whether Qwen3-VL-4B can keep its strong `insulator_ok` behavior while recovering `defect_flashover` recall through small prompt-only repairs.
+Этот прогон проверял, сможет ли `Qwen3-VL-4B` сохранить сильное поведение на классе `insulator_ok` и при этом восстановить recall для `defect_flashover` за счёт небольших изменений только в prompt-е.
 
-Run source: Kaggle kernel `kostyaryazanov/notebookd64e91cba0`, version 18.
+## Настройка
 
-## Setup
-
-- Model: `Qwen/Qwen3-VL-4B-Instruct`
-- Dataset: clean test split (historical `val_v2` path), 58 GT crops
-- Output contract: `vlm_labels_v1`
+- Модель: `Qwen/Qwen3-VL-4B-Instruct`
+- Датасет: clean test split, historical `val_v2`, 58 GT crop
+- Формат вывода: `vlm_labels_v1`
 - Max pixels: `401408`
 - GPU: Kaggle T4
-- Control prompt: `qwen_vlm_labels_v1_prompt_v7f_flashover_unclear_to_unknown_nocroppath`
-- Candidate prompts: `v8a`, `v8b`, `v8c`
+- Контрольный prompt: `qwen_vlm_labels_v1_prompt_v7f_flashover_unclear_to_unknown_nocroppath`
+- Кандидатные prompt-ы: `v8a`, `v8b`, `v8c`
 
-## Results
+## Результаты
 
 | prompt | correct | acc | macro-F1 | OK recall | flashover recall | broken recall | verdict |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| v7f control | 31/58 | 0.5345 | 0.2748 | 27/32 | 2/20 | 2/6 | control |
-| v8a flashover recall | 30/58 | 0.5172 | 0.1998 | 26/32 | 4/20 | 0/6 | weak repair |
-| v8b balanced | 29/58 | 0.5000 | 0.1732 | 27/32 | 2/20 | 0/6 | no repair |
-| v8c positive evidence | 28/58 | 0.4828 | 0.1532 | 27/32 | 1/20 | 0/6 | no repair |
+| v7f control | 31/58 | 0.5345 | 0.2748 | 27/32 | 2/20 | 2/6 | контроль |
+| v8a flashover recall | 30/58 | 0.5172 | 0.1998 | 26/32 | 4/20 | 0/6 | слабое улучшение |
+| v8b balanced | 29/58 | 0.5000 | 0.1732 | 27/32 | 2/20 | 0/6 | улучшения нет |
+| v8c positive evidence | 28/58 | 0.4828 | 0.1532 | 27/32 | 1/20 | 0/6 | улучшения нет |
 
-All runs had parse success and schema validity equal to `1.0`.
+Во всех прогонах `parse success` и `schema validity` были равны `1.0`.
 
-## Interpretation
+## Интерпретация
 
-The targeted prompt repair did not produce a useful Qwen3-4B variant. The only variant that increased flashover recall was `v8a`, but the gain was small: `2/20 -> 4/20`. It also reduced overall correctness and lost all `defect_broken` hits.
+Точечный prompt repair не дал полезной версии Qwen3-4B. Единственный вариант, который повысил recall для `defect_flashover`, — это `v8a`, но прирост был небольшим: с `2/20` до `4/20`. При этом общая точность снизилась, а все правильные попадания по классу `defect_broken` пропали.
 
-This supports the earlier conclusion: the Qwen3-4B frozen model has a strong normal-insulator bias under the current task framing. Prompt-only repair can move the boundary a little, but not enough to make Qwen3-4B a better Stage 3 model than the clean Qwen2.5-VL-3B baseline.
+Это подтверждает предыдущий вывод: frozen-модель Qwen3-4B в текущей постановке задачи сильно смещена в сторону нормальных изоляторов. Изменение только prompt-а может немного сдвинуть границу решений, но этого недостаточно, чтобы сделать Qwen3-4B лучше базовой Qwen2.5-VL-3B на Stage 3.
 
-## Decision
+## Решение
 
-Do not promote Qwen3-4B prompt variants to Stage 4.
+Не продвигать prompt-варианты Qwen3-4B в Stage 4.
 
-Stop broad prompt-only work for frozen VLMs. The next useful branch should be one of:
+Широкую работу с prompt-only настройкой frozen VLM стоит остановить. Следующая полезная ветка должна быть одной из следующих:
 
-1. a supervised Qwen2.5-VL-3B LoRA/QLoRA experiment;
-2. a hybrid coarse classifier plus Qwen structured reporter;
-3. a coarse-only TL-CLIP / CLIP-style benchmark if usable weights are available.
+1. supervised LoRA/QLoRA-эксперимент для Qwen2.5-VL-3B;
+2. гибрид: отдельный coarse-классификатор + Qwen как генератор структурированного описания;
+3. coarse-only TL-CLIP / CLIP-style benchmark, если доступны пригодные веса.
 
-The current result is still scientifically useful: larger/newer frozen VLMs and prompt repair did not solve the `insulator_ok` vs `defect_flashover` bottleneck, so the next research step should involve adaptation or a separate discriminative coarse-class component.
+Этот результат всё равно научно полезен: более крупные/новые frozen VLM и prompt repair не решили узкое место `insulator_ok` vs `defect_flashover`. Значит, следующий шаг исследования должен включать адаптацию модели или отдельный дискриминативный компонент для грубой классификации.

@@ -1,8 +1,8 @@
-# VLM Backbone Comparison Report
+# Отчёт о сравнении VLM-моделей
 
-This report is generated from the frozen VLM comparison tables. It keeps the clean Stage 3 protocol fixed and summarizes which models are safe to promote.
+Этот отчёт построен по таблицам сравнения frozen VLM. Протокол Stage 3 оставался фиксированным: модели получали один и тот же crop, один и тот же prompt и должны были выдать структурированный ответ в формате `vlm_labels_v1`.
 
-## Stage 3 Structured Reporter Runs
+## Stage 3: VLM как генератор структурированного описания
 
 | model | parse | schema | acc | macro-F1 | visibility macro-F1 | tag Jaccard |
 |---|---:|---:|---:|---:|---:|---:|
@@ -15,19 +15,18 @@ This report is generated from the frozen VLM comparison tables. It keeps the cle
 | `smolvlm2_500m_video_instruct` | 0.6034 | 0.6034 | 0.3276 | 0.1134 | 0.0526 | 0.0000 |
 | `phi35_vision_instruct` | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
 
-## Domain-Specific and Coarse-Only Candidates
+## Кандидаты из энергетической области и coarse-only модели
 
 | candidate | status | eval mode | blocker |
 |---|---|---|---|
-| `TL-CLIP` | pending_weights_code_confirmation | coarse_classifier_only | public weights/code not confirmed locally |
-| `PowerGPT` | related_work_until_runnable_release_confirmed | structured_reporter_if_runnable | public runnable inference path not confirmed |
-| `Power-LLaVA` | related_work_until_runnable_release_confirmed | structured_reporter_if_runnable | public runnable inference path not confirmed |
-| `PLVLDet` | related_work_or_detector_baseline | detector_baseline | not a structured VLM reporter |
+| `TL-CLIP` | ожидается подтверждение доступности весов/кода | только coarse-классификатор | публичные веса/код локально не подтверждены |
+| `PowerGPT` | related work до подтверждения runnable release | structured reporter, если получится запустить | публичный runnable inference path не подтверждён |
+| `Power-LLaVA` | related work до подтверждения runnable release | structured reporter, если получится запустить | публичный runnable inference path не подтверждён |
+| `PLVLDet` | related work или detector baseline | detector baseline | не является VLM-генератором структурированного описания |
 
-## Decision
+## Интерпретация
 
-No new frozen VLM is promoted to Stage 4 from this pass. InternVL3-2B improves raw accuracy, but it does not improve macro-F1 and loses visibility/tag quality. The next branch should be domain adaptation or a hybrid discriminative coarse classifier plus structured Qwen reporter.
+Новая frozen VLM из этого прохода не была продвинута в Stage 4. `InternVL3-2B` улучшает обычную accuracy, но не улучшает macro-F1 и сильно проигрывает по качеству structured output: хуже visibility и evidence tags.
 
-Stage 3 rows: 8
-Stage 4 rows: 2
-Domain status rows: 4
+Иными словами, модель с лучшей обычной accuracy не обязательно лучше как генератор структурированного описания. В нашем случае `Qwen2.5-VL-3B` остаётся более стабильным structured reporter, потому что у него выше `visibility macro-F1` и `tag Jaccard`, хотя accuracy класса ниже, чем у `InternVL3-2B`.
+

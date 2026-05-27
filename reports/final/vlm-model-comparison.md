@@ -2,7 +2,6 @@
 
 Сравнение frozen VLM закрывает вопрос: можно ли просто заменить Qwen2.5-VL-3B на другую открытую VLM и получить лучший структурированный Stage 3 reporter без дообучения.
 
-Протокол был фиксирован: clean `val_v2` GT crops, тот же `vlm_labels_v1` contract, тот же evaluator, без `crop_path` и class-like filename hints в prompt.
 
 | model | parse | schema | acc | macro-F1 | visibility macro-F1 | tag Jaccard | решение |
 |---|---:|---:|---:|---:|---:|---:|---|
@@ -17,6 +16,5 @@
 
 InternVL3-2B дал лучший raw accuracy, но не улучшил macro-F1, visibility и evidence tags. Поэтому он не стал новым Stage 4 reporter. LLaVA-OneVision и SmolVLM2 не удержали структурированный контракт достаточно надёжно.
 
-Вывод: broad frozen VLM swap на этом этапе не дал лучшего reporter. Следующий полезный путь — либо гибридный coarse classifier, либо более аккуратная domain adaptation, но не дальнейший широкий перебор frozen VLM.
-
+Вывод: изменение VLM на этом этапе не дал лучшего reporter.
 Подробные таблицы: `tables/stage3_vlm_backbone_comparison.csv` и `tables/vlm_backbone_paired_summary.csv`.

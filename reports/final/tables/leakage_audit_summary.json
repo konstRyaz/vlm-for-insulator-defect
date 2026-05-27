@@ -1,6 +1,0 @@
-{
-  "status": "PASS",
-  "prompt_visible_hits": 0,
-  "scope": "Проверка отсутствия prompt-visible утечки метки через crop_path.",
-  "note": "Детальная таблица технических metadata-срабатываний не включается в публичный срез."
-}

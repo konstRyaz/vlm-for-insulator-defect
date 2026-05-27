@@ -1,20 +1,21 @@
-﻿# Stage 3 Model Sweep And Hybrid Signal
+﻿# Stage 3: сравнение Qwen-моделей и проверка гибридного сигнала
 
-This note records the local analysis done after the clean frozen Qwen model sweep.
+Этот этап фиксирует анализ прогона нескольких frozen Qwen-моделей на одном и том же test split из 58 объектов.
 
-## Completed Frozen Runs
+## Проверенные модели
 
-The completed models were:
+Успешно были прогнаны:
 
 - `Qwen/Qwen2.5-VL-3B-Instruct`
 - `Qwen/Qwen2.5-VL-7B-Instruct`
 - `Qwen/Qwen3-VL-4B-Instruct`
 
-`Qwen/Qwen2.5-VL-7B-Instruct-AWQ` failed at preflight. `Qwen/Qwen3-VL-2B-Instruct` passed preflight but failed at validation because the produced predictions did not pass the existing `vlm_labels_v1` validation path.
+`Qwen/Qwen2.5-VL-7B-Instruct-AWQ` не прошла preflight.  
+`Qwen/Qwen3-VL-2B-Instruct` прошла preflight, но не прошла validation по `vlm_labels_v1`.
 
-## Main Result
+## Основной результат
 
-The larger/newer frozen models are not drop-in replacements for the clean 3B baseline.
+Более крупные или новые frozen Qwen-модели не оказались простой заменой базовой Qwen2.5-VL-3B.
 
 | model | correct | accuracy | macro-F1 | OK recall | flashover recall | broken recall |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -22,11 +23,11 @@ The larger/newer frozen models are not drop-in replacements for the clean 3B bas
 | Qwen2.5-VL-7B | 29/58 | 0.5000 | 0.1556 | 0.8750 | 0.0500 | 0.0000 |
 | Qwen3-VL-4B | 31/58 | 0.5345 | 0.2748 | 0.8438 | 0.1000 | 0.3333 |
 
-Qwen3-VL-4B has the best raw accuracy, but it mostly gets there by predicting normal insulators well while losing flashover recall. The result is useful, but not a direct improvement for the project bottleneck.
+Qwen3-VL-4B дала лучшую обычную accuracy, но в основном за счёт хорошего распознавания нормальных изоляторов. При этом recall для `defect_flashover` сильно просел. Поэтому модель выглядит полезной, но не решает главный проблемный случай проекта.
 
-## Hybrid / Oracle Check
+## Проверка гибридного сигнала
 
-A simple local analysis compared 3B, 7B, and Qwen3-4B predictions on the same 58 objects.
+Дополнительно сравнили ответы 3B, 7B и Qwen3-4B на тех же 58 объектах.
 
 | rule | correct | accuracy | macro-F1 | OK correct | flashover correct | broken correct |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -37,21 +38,8 @@ A simple local analysis compared 3B, 7B, and Qwen3-4B predictions on the same 58
 | 3B defects else Qwen3-4B | 30 | 0.5172 | 0.3057 | 12/32 | 15/20 | 3/6 |
 | oracle any model correct | 47 | 0.8103 | 0.4888 | 28/32 | 15/20 | 4/6 |
 
-The oracle is high, so the models contain complementary signal. But simple rule-based ensembles do not yet provide a clean win: majority voting improves raw accuracy while hurting macro-F1 and flashover recall.
+Oracle высокий: хотя бы одна из моделей часто знает правильный ответ. Значит, между моделями есть взаимодополняющий сигнал. Но простые правила объединения пока не дают чистого выигрыша: majority vote повышает accuracy, но ухудшает macro-F1 и recall для flashover.
 
-## Decision
+## Решение
 
-Do not promote 7B or Qwen3-4B as-is.
-
-The next experiment is a targeted Qwen3-4B prompt repair sweep:
-
-`notebooks/stage3_qwen3_4b_prompt_repair_clean.ipynb`
-
-The goal is not broad prompt tuning. It tests whether Qwen3-4B can keep its strong `insulator_ok` behavior while recovering enough `defect_flashover` recall to become useful.
-
-Acceptance signal:
-
-- parse/schema remains 1.0;
-- flashover recall improves substantially over Qwen3-4B control;
-- OK recall remains reasonable;
-- coarse macro-F1 beats the clean 3B baseline or at least becomes competitive.
+Не продвигать Qwen2.5-VL-7B и Qwen3-VL-4B как готовую замену Qwen2.5-VL-3B.

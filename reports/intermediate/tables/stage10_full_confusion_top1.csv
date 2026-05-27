@@ -1,0 +1,4 @@
+label_coarse_class,defect_broken,defect_flashover,insulator_ok
+defect_broken,12,2,7
+defect_flashover,0,21,9
+insulator_ok,4,13,172

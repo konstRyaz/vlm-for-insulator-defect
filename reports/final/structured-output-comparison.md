@@ -1,12 +1,10 @@
 # Сравнение VLM по structured output
 
-## Зачем этот раздел
-
-Помимо accuracy класса, в проекте отдельно сравнивались VLM как structured reporter. Это важно, потому что VLM может быть полезна не только тем, что выбирает класс, но и тем, что выдаёт структурированный JSON: `coarse_class`, `visibility`, `visual_evidence_tags`, `needs_review`, короткое описание.
+Помимо accuracy класса, в проекте отдельно сравнивались VLM как structured reporter. Поля на выходе: `coarse_class`, `visibility`, `visual_evidence_tags`, `needs_review`, короткое описание.
 
 ## Что сравнивали
 
-На Stage3 разные frozen VLM сравнивались по единому `vlm_labels_v1` контракту:
+На Stage3 разные VLM сравнивались по единому `vlm_labels_v1` контракту:
 
 - parse success;
 - schema validity;
@@ -24,9 +22,8 @@
 
 ## Что это значит
 
-Да, сравнение разных VLM по structured output есть. Но evidence tags модели предсказывают не очень хорошо: даже лучшая модель по этому показателю дала tag mean Jaccard около `0.20`. Поэтому structured JSON можно показывать как отдельное направление оценки, но не как сильный найденный benefit.
+Evidence tags модели предсказывают не очень хорошо: даже лучшая модель по этому показателю дала tag mean Jaccard около `0.20`. Поэтому structured JSON -- отдельное направление оценки, но не сильное преимущество.
 
-## Где смотреть артефакты
 
 Основные таблицы:
 - `reports/final/tables/stage3_vlm_backbone_comparison.csv`

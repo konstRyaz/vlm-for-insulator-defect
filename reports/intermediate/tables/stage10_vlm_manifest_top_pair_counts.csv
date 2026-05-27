@@ -1,0 +1,7 @@
+dino_top1,dino_top2,count
+insulator_ok,defect_broken,127
+insulator_ok,defect_flashover,61
+defect_flashover,insulator_ok,31
+defect_broken,insulator_ok,14
+defect_flashover,defect_broken,5
+defect_broken,defect_flashover,2

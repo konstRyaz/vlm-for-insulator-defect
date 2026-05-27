@@ -9,10 +9,6 @@
 4. Пересобрать full table: `scripts/stage10_build_full_dataset_table.py`.
 5. Проверить oracle-анализ: `scripts/stage10_analyze_full_dataset_oracle.py`.
 
-## Критические проверки
-- Для development использовать только OOF (не in-sample).
-- Для test использовать только final predictions.
-- Проверить join coverage и отсутствующие `record_id`.
 
 ## Артефакты
 - `stage10_dinov2_full_oof_plus_test_predictions.csv`

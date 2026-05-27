@@ -1,7 +1,5 @@
 # Скрипты
 
-Основные entrypoint-группы:
-
 - подготовка данных: `make_toy_coco.py`, `idid_to_coco.py`, `prepare_data.py`;
 - детектор: запуск через `src/train.py`, `src/eval.py`, `src/infer.py`;
 - VLM/crop: `export_vlm_crops.py`, `run_stage3_vlm_baseline.py`, `run_stage4_detector_to_vlm.py`;
@@ -10,7 +8,6 @@
 - гибридная ветка: `hybrid_merge_qwen_reporter.py`;
 - финальный анализ: `analyze_stage4_paired_cases.py`, `audit_no_leak_stage3_stage4.py`, `build_stage4_visual_review.py`.
 
-## Stage-группы скриптов
 - Stage10: top-k oracle/reranker diagnostics.
 - Stage12: risk-review, bad-crop safety, structured-output audit.
 - Stage13: trade-off, safety pareto, cost utility, claim/multiview diagnostics.

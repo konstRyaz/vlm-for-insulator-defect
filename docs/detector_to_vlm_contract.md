@@ -1,103 +1,93 @@
-# Detector to VLM Contract (Baseline v1)
+# Контракт передачи от детектора к VLM: baseline v1
 
-## Purpose
+## Цель
 
-This contract defines how detector outputs are filtered, routed, and handed off to Stage 3 VLM processing.
-It is the operating policy for baseline integration and should be treated as explicit system behavior, not implicit assumptions.
+Этот документ описывает, как результаты детектора фильтруются, отбираются и передаются на Stage 3 для обработки VLM. Это не набор скрытых предположений, а явная политика работы системы на этапе связки `детектор → VLM`.
 
-## Scope
+## Область применения
 
-- Detector source: `detector_baseline_v1` (Faster R-CNN baseline checkpoint).
-- Stage focus: transition from detector-only evaluation to controlled region-level VLM input.
-- This contract is intentionally conservative to reduce noise and scope creep.
+- Источник детекций: `detector_baseline_v1`, baseline на Faster R-CNN.
+- Фокус этапа: переход от оценки одного детектора к контролируемой передаче найденных областей в VLM.
+- Политика специально сделана консервативной, чтобы не перегружать VLM шумными областями.
 
-## 1. Eval vs Pipeline Threshold
+## 1. Порог для оценки и порог для pipeline
 
-- `eval_threshold: 0.05`
-  - used only for COCO-style detector evaluation/export.
-- `pipeline_threshold_default: 0.5`
-  - default runtime threshold for `detector -> VLM` handoff.
-- `pipeline_threshold_alt: 0.3`
-  - optional alternative for recall-oriented ablations.
+- `eval_threshold: 0.05`  
+  Используется только для COCO-style оценки и экспорта результатов детектора.
 
-## 2. Routing Policy
+- `pipeline_threshold_default: 0.5`  
+  Основной runtime-порог для передачи областей из детектора в VLM.
 
-Default routing to VLM is defect-first:
+- `pipeline_threshold_alt: 0.3`  
+  Дополнительный вариант для ablation-экспериментов, где важнее recall.
 
-- send to VLM:
+## 2. Политика передачи областей в VLM
+
+По умолчанию в VLM передаются прежде всего области с предполагаемыми дефектами:
+
+- отправлять в VLM:
   - `defect_flashover`
   - `defect_broken`
-- do not send all detections blindly.
 
-Reason: keep region count manageable and avoid propagating detector noise to the VLM stage.
+Не нужно отправлять в VLM все найденные области подряд.
 
-## 3. Unknown Policy
+Причина: нужно удерживать количество crop под контролем и не передавать в VLM слишком много шума от детектора.
 
-`unknown` is not a central descriptive target class in baseline v1.
+## 3. Политика для класса `unknown`
 
-Policy:
+Класс `unknown` в baseline v1 не является основным описательным целевым классом.
 
-- treat `unknown` as `review` / uncertain finding;
-- allow suppression in default pipeline mode;
-- keep this behavior explicit in config so it is auditable and ablatable later.
+Политика:
 
-## 4. Insulator_OK Policy
+- трактовать `unknown` как случай для review или как неопределённое обнаружение;
+- разрешить подавление `unknown` в основном режиме pipeline;
+- явно хранить это поведение в конфиге, чтобы потом можно было проверить и отключить его в ablation.
 
-`insulator_ok` is not mass-routed into VLM by default.
+## 4. Политика для `insulator_ok`
 
-Policy:
+Класс `insulator_ok` по умолчанию не отправляется массово в VLM.
 
-- suppress most `insulator_ok` regions from VLM input;
-- use as fallback/no-defect signal only when no defect regions remain after filtering.
+Политика:
 
-## 5. Top-k Policy
+- подавлять большинство областей `insulator_ok` перед VLM;
+- использовать `insulator_ok` как fallback / сигнал отсутствия дефекта только тогда, когда после фильтрации не осталось дефектных областей.
 
-To control downstream VLM load:
+## 5. Политика top-k
 
-- `max_regions_per_image: 5`
-- sort by score descending
-- defect categories have higher routing priority than `insulator_ok` and `unknown`
+Чтобы ограничить нагрузку на VLM:
 
-Recommended priority order:
+- `max_regions_per_image: 5`;
+- сортировать области по score по убыванию;
+- дефектные категории имеют более высокий приоритет передачи, чем `insulator_ok` и `unknown`.
+
+Рекомендуемый порядок приоритета:
 
 1. `defect_flashover`
 2. `defect_broken`
 3. `insulator_ok`
 4. `unknown`
 
-## 6. Crop Policy
+## 6. Политика crop
 
-- `crop_padding_ratio: 0.15`
-- apply symmetric context around bbox before crop extraction
-- always clip expanded bbox to image boundaries
+- `crop_padding_ratio: 0.15`;
+- добавлять симметричный контекст вокруг bbox перед вырезанием crop;
+- всегда обрезать расширенный bbox по границам исходного изображения.
 
-This is the initial baseline crop policy; context ablation can be done later.
+Это начальная baseline-политика crop. Позже можно отдельно проверить ablation по размеру контекста.
 
-## 7. Output / Handoff Contract
+## 7. Контракт выходных данных
 
-Each routed region should produce a structured record with at least:
+Для каждой области, переданной дальше, должна формироваться структурированная запись минимум с такими полями:
 
 - `image_id`
 - `image_path`
-- `source` (`pred` now, `gt` supported for Stage 3 calibration)
+- `source`: сейчас `pred`, но `gt` поддерживается для Stage 3 calibration
 - `bbox_xywh`
 - `score`
 - `category_id`
 - `category_name`
-- `crop_path` (if crop file exists)
+- `crop_path`, если crop-файл существует
 - `needs_review`
 - `routing_decision`
 
-Recommended `routing_decision` values:
 
-- `send_to_vlm`
-- `review`
-- `suppress`
-- `no_defect_signal`
-
-## 8. Non-Goals for This Baseline
-
-- no YOLO migration in this step;
-- no taxonomy rebuild;
-- no new detector training loop;
-- no GPU dependency for policy artifacts.

@@ -1,0 +1,4 @@
+group,value,n,top1_accuracy,top2_oracle_accuracy,top3_oracle_accuracy,n_top1_wrong,n_recoverable_top2,n_recoverable_top3,recoverable_top2_rate_among_errors,recoverable_top3_rate_among_errors
+label_coarse_class,defect_broken,21,0.5714285714285714,0.9047619047619048,1.0,9,7,9,0.7777777777777778,1.0
+label_coarse_class,defect_flashover,30,0.7,1.0,1.0,9,9,9,1.0,1.0
+label_coarse_class,insulator_ok,189,0.91005291005291,1.0,1.0,17,17,17,1.0,1.0

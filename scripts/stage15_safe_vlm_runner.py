@@ -29,7 +29,6 @@ import urllib.parse
 from pathlib import Path
 from typing import Any, Optional
 
-# Set these before importing torch/transformers if user requests CPU.
 def early_env_for_device(device: str) -> None:
     os.environ.setdefault("TRANSFORMERS_NO_TF", "1")
     os.environ.setdefault("USE_TF", "0")

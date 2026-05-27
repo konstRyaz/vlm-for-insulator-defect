@@ -1,28 +1,13 @@
-# Stage14: Stratified Robustness
+# Stage14: stratified robustness check
 
 ## Зачем нужен Stage14
-Historical dev/test имели различия по долям дефектов, что могло искажать выводы по AUPRC и review-value.
-Stage14 сделал repeated stratified resplits для проверки устойчивости benefit-а.
 
-## Что делали
-- Repeated stratified splits по 240 записям.
-- Оценка `dino_only`, `dino_plus_vlm` и baselines по target-ам review/risk.
-- Обязательная prevalence-aware отчетность:
-  - `positive_prevalence`
-  - `AUPRC`
-  - `AUPRC - prevalence`
+Historical split был несбалансированным: доля дефектов в development и test различалась. Поэтому была проверка, не является ли review/risk benefit артефактом старого split-а.
 
-## Ключевые наблюдения
-- В resplit test подвыборках размер около **60** (при `test_size=0.25`), доля `defect_vs_ok` в среднем около **0.2125**, что близко к overall.
-- Для `general_error` `dino_plus_vlm` в среднем выше `dino_only` по `AUPRC-prevalence`:
-  - `dino_only`: mean ~ **0.1649**
-  - `dino_plus_vlm`: mean ~ **0.2066**
-- Для `false_alarm`:
-  - `dino_only`: mean ~ **0.1579**
-  - `dino_plus_vlm`: mean ~ **0.3443**
-- Для `ok_to_flashover_false_alarm`:
-  - `dino_only`: mean ~ **0.2024**
-  - `dino_plus_vlm`: mean ~ **0.4463**
+## Что сделали
+
+Были построены repeated stratified splits с более нормальной долей классов. На этих split-ах заново оценивались risk/review модели и сравнивались DINO-only, VLM-only, DINO+VLM и простые baselines.
 
 ## Вывод
-Review/risk benefit `dino_plus_vlm` не сводится только к старому historical split и сохраняется на repeated stratified resplits, особенно на false-alarm related targets.
+
+Основной benefit не развалился: DINO+VLM оставался лучше DINO-only для ранжирования общих ошибок и false alarms. Это усиливает вывод, что VLM даёт устойчивый review/risk signal, а не просто выигрывает из-за случайного состава test split.

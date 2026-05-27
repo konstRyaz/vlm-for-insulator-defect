@@ -54,7 +54,3 @@
 - `stage15_build_e02_full_manifest.py`
 - `stage15_eval_e02_flashover_full.py`
 - `stage15_eval_e02_flashover_posteval_v2.py`
-
-## Ограничение
-
-Clean repo не включает full raw VLM outputs и Kaggle runtime artifacts. Для полного rerun нужны внешние данные и GPU environment.

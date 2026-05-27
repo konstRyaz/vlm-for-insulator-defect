@@ -1,0 +1,4 @@
+group,value,n,top1_accuracy,top2_oracle_accuracy,top3_oracle_accuracy,n_top1_wrong,n_recoverable_top2,n_recoverable_top3,recoverable_top2_rate_among_errors,recoverable_top3_rate_among_errors
+label_visibility,ambiguous,12,0.4166666666666667,1.0,1.0,7,7,7,1.0,1.0
+label_visibility,clear,223,0.874439461883408,0.9910313901345291,1.0,28,26,28,0.9285714285714286,1.0
+label_visibility,partial,5,1.0,1.0,1.0,0,0,0,0.0,0.0
