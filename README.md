@@ -47,11 +47,11 @@ VLM помогает ответить на вопрос:
 
 ## Главные отчёты
 
-- `reports/final/vlm-benefit-summary.md` — краткий итог найденных преимуществ.
-- `reports/final/vlm-benefit-development-value.md` — практическая польза VLM для development/integration.
-- `reports/final/vlm-benefit-reference-rationale.md` — интуитивное и референсное обоснование.
-- `reports/final/vlm-benefit-limitations.md` — ограничения и неподтверждённые claims.
-- `reports/final/vlm-benefit-summary-2026-05-16/` — подробные Stage12–15 отчёты и компактные артефакты.
+- `reports/final/vlm-benefit-summary.md` -- итог найденных преимуществ.
+- `reports/final/vlm-benefit-development-value.md` -- практическая польза VLM.
+- `reports/final/vlm-benefit-reference-rationale.md` -- обоснования.
+- `reports/final/vlm-benefit-limitations.md` -- ограничения и неподтверждённые эффекты.
+- `reports/final/vlm-benefit-summary-2026-05-16/` -- подробные Stage12–15 отчёты и компактные артефакты.
 
 
 ## Структура
